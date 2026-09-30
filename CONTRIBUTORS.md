@@ -1,6 +1,6 @@
 # Contributors
 
-Vouch welcomes developers working on reliable task execution, evidence and
+Vowdo welcomes developers working on reliable task execution, evidence and
 recovery. See [CONTRIBUTING.md](CONTRIBUTING.md) to get involved.
 
 | Contributor | Recognition |

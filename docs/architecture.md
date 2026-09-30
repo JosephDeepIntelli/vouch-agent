@@ -57,10 +57,3 @@ the fixture evaluation lifecycle; `cli/` exposes commands.
 See the [adapter protocol](adapter-protocol-v1.1.md) and
 [quickstart](quickstart.md). The previous Python implementation remains
 available at its immutable public tag as a compatibility reference.
-
-## Naming
-
-The product's Chinese name is 迪普智信 (short form 智信), with the promise
-有据可依，值得托付 — grounded in evidence, worthy of your trust.
-The English name remains Vouch / DeepIntelli Vouch; CLI and protocol
-identifiers are unchanged.

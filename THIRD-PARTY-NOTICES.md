@@ -1,6 +1,6 @@
 # Third-party notices
 
-Vouch's own source is licensed under Apache-2.0; see [LICENSE](LICENSE).
+Vowdo's own source is licensed under Apache-2.0; see [LICENSE](LICENSE).
 The native binaries embed Deno and its runtime dependencies. License texts
 are included in the source repository and binary distribution:
 
