@@ -7,7 +7,7 @@ public domain. From the SQLite website's legal notice:
   public domain by its authors. ... The authors disclaim copyright.
 
 The Deno runtime embeds SQLite (via rusty_sqlite / the node:sqlite built-in);
-the copy embedded in the `vouch` and `vouch-worker` binaries ships under that
+the copy embedded in the `vowdo` and `vowdo-worker` binaries ships under that
 same public-domain dedication. No additional restriction applies.
 
 Retrieved 2026-09-30 from https://www.sqlite.org/copyright.html — verify
