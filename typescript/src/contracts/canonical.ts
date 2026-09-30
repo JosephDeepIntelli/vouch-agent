@@ -23,7 +23,7 @@
  *       re-spelled, because re-spelling would silently change identity.
  */
 
-/** Prefix for every content digest in Vouch. */
+/** Prefix for every content digest in Vowdo. */
 import { createHash } from "node:crypto";
 
 export const DIGEST_PREFIX = "sha256:";

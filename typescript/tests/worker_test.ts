@@ -1,5 +1,5 @@
 /**
- * Behavioral tests: the native bounded executor — worker subprocess
+ * Gate 2 behavioral tests: the native bounded executor — worker subprocess
  * with zero permissions, nested invocation budgets spanning children and
  * failures, durable cursor across resume, replay exhaustion, cancel,
  * two-worker fencing, pause/resume, and the crash → needs-reconciliation
@@ -20,7 +20,7 @@ import type {
 } from "../src/runtime/ports.ts";
 
 function tempDir(name: string): string {
-  const dir = `/tmp/vouch-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
+  const dir = `/tmp/vowdo-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
   Deno.mkdirSync(dir, { recursive: true });
   return dir;
 }
@@ -93,7 +93,7 @@ Deno.test({
       // execution config sealed with the worker boundary
       const config = ws.store.load("execution-config", outcome.runId)!;
       assertEquals(config["isolated"], true);
-      assertEquals(config["runtimeId"], "vouch-worker-scripted/1");
+      assertEquals(config["runtimeId"], "vowdo-worker-scripted/1");
     } finally {
       ws.close();
       rmrf(ws.projectDir);
@@ -166,7 +166,7 @@ Deno.test({
       const gates: Array<() => void> = [];
       let poolCursor = 0;
       const runtime = {
-        backendId: () => "vouch-test-park-worker/1",
+        backendId: () => "vowdo-test-park-worker/1",
         async openSession(_config: unknown, budget: QueryBudgetPort | null) {
           return {
             async step(_instruction: string, scope: { materials: unknown }) {
@@ -299,7 +299,7 @@ Deno.test({
       const modelSteps = run.steps.filter((s) => s.kind === "model-call");
       const failedStep = modelSteps[modelSteps.length - 1];
       assertEquals(failedStep.status, "failed");
-      assertTrue(String(failedStep.error).includes("vouch/replay-exhausted"));
+      assertTrue(String(failedStep.error).includes("vowdo/replay-exhausted"));
       // The failing (never-run) draw booked NOTHING: no unmeasurable cost line
       const unmeasurable = ws.journal.costEntries(runId).filter((c) => !c.measurable);
       assertEquals(unmeasurable.length, 0, "a refused draw must not book unmeasurable cost");
@@ -336,7 +336,7 @@ Deno.test({
       assertEquals(outcome.status, "failed");
       const run = service.status(runId)!;
       const step = run.steps.find((s) => s.kind === "model-call")!;
-      assertTrue(String(step.error).includes("vouch/budget"), step.error ?? "");
+      assertTrue(String(step.error).includes("vowdo/budget"), step.error ?? "");
       // no query child was created (refused before it ran)
       const children = ws.ledger.reservations().filter((r) => r.parentReservationId !== null);
       assertEquals(children.length, 0);
@@ -354,7 +354,7 @@ Deno.test({
     try {
       // A runtime whose step() throws a NON-Vouch error: the outcome is unknown.
       const boom: Runtime = {
-        backendId: () => "vouch-test-crash/1",
+        backendId: () => "vowdo-test-crash/1",
         async openSession(): Promise<RuntimeSession> {
           return {
             async step(): Promise<ModelCallResult> {
@@ -423,7 +423,7 @@ Deno.test({
         release = resolve;
       });
       const parking: Runtime = {
-        backendId: () => "vouch-test-park/1",
+        backendId: () => "vowdo-test-park/1",
         async openSession(): Promise<RuntimeSession> {
           return {
             async step(): Promise<ModelCallResult> {

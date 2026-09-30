@@ -145,10 +145,10 @@ export function importPythonWorkspace(options: {
   purpose?: string;
 }): ImportReport {
   const sourceDir = Deno.realPathSync(options.sourceProjectDir);
-  const sourceVouch = `${sourceDir}/.vouch`;
+  const sourceMetadataDir = `${sourceDir}/.vouch`;
   let marker: unknown;
   try {
-    marker = JSON.parse(Deno.readTextFileSync(`${sourceVouch}/workspace.json`));
+    marker = JSON.parse(Deno.readTextFileSync(`${sourceMetadataDir}/workspace.json`));
   } catch {
     throw new ContractError(
       `${sourceDir} is not a Python vouch project (no .vouch/workspace.json); nothing to import`,
@@ -163,7 +163,7 @@ export function importPythonWorkspace(options: {
   }
 
   // Plan the whole import in memory; refuse BEFORE writing anything.
-  const records = readPythonRecords(`${sourceVouch}/meta.sqlite`, sourceDir);
+  const records = readPythonRecords(`${sourceMetadataDir}/meta.sqlite`, sourceDir);
   const projectRecords = records.filter((r) => r.kind === "project");
   if (projectRecords.length !== 1) {
     throw new ContractError(
@@ -201,11 +201,11 @@ export function importPythonWorkspace(options: {
   }
 
   // Copy artifacts first (bytes identical → same digests).
-  const sourceArtifacts = new ArtifactStore(sourceVouch);
+  const sourceArtifacts = new ArtifactStore(sourceMetadataDir);
   const target = ProjectWorkspace.create(options.targetProjectDir, spec);
   let artifactsCopied = 0;
   try {
-    const sourceDirArtifacts = `${sourceVouch}/artifacts`;
+    const sourceDirArtifacts = `${sourceMetadataDir}/artifacts`;
     for (const entry of Deno.readDirSync(sourceDirArtifacts)) {
       if (!entry.isFile || !/^[0-9a-f]{64}$/.test(entry.name)) continue;
       const bytes = sourceArtifacts.get(`sha256:${entry.name}`);

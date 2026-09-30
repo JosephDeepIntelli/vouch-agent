@@ -1,7 +1,7 @@
 /**
  * The worker process entrypoint — zero-permission bounded step executor.
  *
- * Compiled as its own binary (`vouch-worker`) with NO permission flags, or
+ * Compiled as its own binary (`vowdo-worker`) with NO permission flags, or
  * run in dev as `deno run --no-prompt worker_main.ts` with no allows. It
  * reads newline-delimited JSON frames from stdin and writes them to stdout:
  * everything it needs (script pool, scope) arrives in frames; it never
@@ -71,7 +71,7 @@ type PermissionName = (typeof WORKER_MUST_LACK)[number];
  * still effective and the boundary is weakened. */
 const FUNCTIONAL_PROBES: Partial<Record<PermissionName, () => unknown>> = {
   read: () => Deno.readTextFile("/dev/null"),
-  write: () => Deno.writeTextFile(`/vouch-worker-boundary-probe-denied`, ""),
+  write: () => Deno.writeTextFile(`/vowdo-worker-boundary-probe-denied`, ""),
   env: () => Deno.env.get("HOME"),
   run: () => new Deno.Command("/bin/true").output(),
   net: () => Deno.connect({ hostname: "127.0.0.1", port: 1 }),
@@ -177,7 +177,7 @@ async function handleStep(frame: StepFrame, state: {
   } catch (exc) {
     writeLine({
       t: "fatal",
-      code: "vouch/internal",
+      code: "vowdo/internal",
       message: exc instanceof Error ? exc.message : String(exc),
     });
   }
@@ -212,14 +212,14 @@ async function main(): Promise<void> {
     },
   };
 
-  writeLine({ t: "ready", backendId: "vouch-worker-scripted/1", boundary });
+  writeLine({ t: "ready", backendId: "vowdo-worker-scripted/1", boundary });
 
   const decoder = new TextDecoder();
   let buffer = "";
   for await (const chunk of Deno.stdin.readable) {
     buffer += decoder.decode(chunk, { stream: true });
     if (buffer.length > MAX_FRAME_BYTES * 2) {
-      writeLine({ t: "fatal", code: "vouch/protocol-frame", message: "frame overflow" });
+      writeLine({ t: "fatal", code: "vowdo/protocol-frame", message: "frame overflow" });
       return;
     }
     let newlineIndex: number;
@@ -231,7 +231,7 @@ async function main(): Promise<void> {
       try {
         frame = JSON.parse(line);
       } catch {
-        writeLine({ t: "fatal", code: "vouch/protocol-frame", message: "unparseable frame" });
+        writeLine({ t: "fatal", code: "vowdo/protocol-frame", message: "unparseable frame" });
         return;
       }
       if (frame.t === "open") {
@@ -256,7 +256,7 @@ async function main(): Promise<void> {
         // Handle the step WITHOUT blocking the reader loop: the script may
         // await budget.reserve, whose reply arrives on this same stdin.
         if (handleStepCurrent === null) {
-          writeLine({ t: "fatal", code: "vouch/protocol-frame", message: "step before open" });
+          writeLine({ t: "fatal", code: "vowdo/protocol-frame", message: "step before open" });
           return;
         }
         void handleStepCurrent(frame);

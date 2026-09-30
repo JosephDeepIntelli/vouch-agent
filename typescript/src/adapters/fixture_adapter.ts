@@ -7,7 +7,7 @@
  * (recorded gap: the Choose-journey corpus is served by the real Choose
  * runner through this same protocol).
  *
- * Run as: <vouch> __fixture-adapter --fixtures <pack.json> [--workspace DIR]
+ * Run as: <vowdo> __fixture-adapter --fixtures <pack.json> [--workspace DIR]
  */
 
 import { canonicalJson, digestBytes, digestOf } from "../contracts/canonical.ts";
@@ -130,7 +130,7 @@ async function serveAdapter(fixturesPath: string): Promise<void> {
           seq: sendSeq.next(),
           kind: "error",
           runId: null,
-          payload: frameErrorPayload("vouch/protocol-frame", `bad frame: ${exc}`),
+          payload: frameErrorPayload("vowdo/protocol-frame", `bad frame: ${exc}`),
         });
         continue;
       }
@@ -142,7 +142,7 @@ async function serveAdapter(fixturesPath: string): Promise<void> {
           seq: sendSeq.next(),
           kind: "error",
           runId: frame.runId,
-          payload: frameErrorPayload("vouch/adapter-execution", String(exc)),
+          payload: frameErrorPayload("vowdo/adapter-execution", String(exc)),
         });
       }
     }
@@ -154,7 +154,7 @@ async function serveAdapter(fixturesPath: string): Promise<void> {
     };
     if (frame.kind === "describe-request") {
       reply({
-        adapterId: `vouch-fixture-adapter/${pack.packId}`,
+        adapterId: `vowdo-fixture-adapter/${pack.packId}`,
         workflows: [...new Set(pack.scenarios.map((s) => s.workflowId))].sort(),
         actions: ["run-adapter-attempt"],
         enforcedModes: ["fixture"],
@@ -224,7 +224,7 @@ async function serveAdapter(fixturesPath: string): Promise<void> {
         usage,
         error: side.ok ? null : "scenario scripted failure",
         mode: "fixture",
-        runnerVersion: "vouch-fixture-adapter/1",
+        runnerVersion: "vowdo-fixture-adapter/1",
         identity: identity,
       });
       return;

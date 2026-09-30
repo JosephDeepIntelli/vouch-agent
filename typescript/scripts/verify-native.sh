@@ -8,7 +8,7 @@
 set -euo pipefail
 
 DIST="$(cd "${1:?dist dir required}" && pwd)"
-ROOT="${2:-$(mktemp -d /tmp/vouch-native-verify-XXXX)}"
+ROOT="${2:-$(mktemp -d /tmp/vowdo-native-verify-XXXX)}"
 mkdir -p "$ROOT"
 
 # A restricted PATH with ONLY the system essentials — deliberately excludes
@@ -30,40 +30,40 @@ done
 echo "restricted PATH ready ($RESTRICTED): no python/uv/pip resolvable"
 
 export PATH="$RESTRICTED"
-VOUCH="$DIST/vouch"
-WORKER="$DIST/vouch-worker"
+VOWDO="$DIST/vowdo"
+WORKER="$DIST/vowdo-worker"
 PROJ="$ROOT/project"
 
 step() { echo; echo "== $* =="; }
 
 step "version + modes (honest capability statement)"
-"$VOUCH" version
-"$VOUCH" modes | tail -2
+"$VOWDO" version
+"$VOWDO" modes | tail -2
 
 step "task-only init"
-"$VOUCH" init --task-only --project "$PROJ" --purpose "no-python verification"
+"$VOWDO" init --task-only --project "$PROJ" --purpose "no-python verification"
 
 step "examples (synthetic CSVs with spaces + Chinese filename)"
-"$VOUCH" examples --out "$ROOT/samples"
+"$VOWDO" examples --out "$ROOT/samples"
 
 step "reconcile (durable submit -> claimed execution)"
-"$VOUCH" reconcile --project "$PROJ" \
+"$VOWDO" reconcile --project "$PROJ" \
   --left "$ROOT/samples/产品 目录.csv" --right "$ROOT/samples/supplier feed.csv" \
   --join-key sku
 
 step "runs + run-status (saved, reopened through a fresh process)"
-RUN_ID="$("$VOUCH" runs --project "$PROJ" | awk '{print $1}')"
+RUN_ID="$("$VOWDO" runs --project "$PROJ" | awk '{print $1}')"
 echo "run: $RUN_ID"
-"$VOUCH" run-status --project "$PROJ" "$RUN_ID"
+"$VOWDO" run-status --project "$PROJ" "$RUN_ID"
 
 step "export-run + verify-export (byte-level)"
-"$VOUCH" export-run --project "$PROJ" "$RUN_ID" --out "$ROOT/export"
-"$VOUCH" verify-export "$ROOT/export"
+"$VOWDO" export-run --project "$PROJ" "$RUN_ID" --out "$ROOT/export"
+"$VOWDO" verify-export "$ROOT/export"
 
 step "deliberate tamper denial (one flipped byte)"
 ART="$(ls "$ROOT/export"/artifact-*.bin | head -1)"
 printf 'x' | dd of="$ART" bs=1 seek=0 conv=notrunc status=none
-if "$VOUCH" verify-export "$ROOT/export" >/dev/null 2>&1; then
+if "$VOWDO" verify-export "$ROOT/export" >/dev/null 2>&1; then
   echo "FAIL: tampered export verified" >&2
   exit 1
 fi
@@ -71,24 +71,24 @@ echo "tamper correctly refused (exit $?)"
 
 step "isolated model run through the zero-permission worker binary"
 echo '{"value": "boils at 100C", "source": "handbook"}' > "$ROOT/fact.json"
-"$VOUCH" run --project "$PROJ" --goal "extract the fact" --input fact="$ROOT/fact.json" \
+"$VOWDO" run --project "$PROJ" --goal "extract the fact" --input fact="$ROOT/fact.json" \
   --require-field finding --require-field source --budget 0.5 --max-steps 2
 
 step "improvement commands refused in task-only workspace (no invented owners)"
-if "$VOUCH" improve baseline --project "$PROJ" --version v0 --source-ref x >/dev/null 2>&1; then
+if "$VOWDO" improve baseline --project "$PROJ" --version v0 --source-ref x >/dev/null 2>&1; then
   echo "FAIL: task-only workspace accepted an improvement command" >&2
   exit 1
 fi
 echo "task-only refusal correct"
 
 step "audit: no Python in any subprocess launch"
-# Every child the binaries spawn is: vouch-worker (self-contained ELF),
+# Every child the binaries spawn is: vowdo-worker (self-contained ELF),
 # prlimit, or the fixture adapter (the binary itself re-executed). Verify no
 # binary or script under test references a Python interpreter.
-if strings "$VOUCH" 2>/dev/null | grep -qE "python3? |uv run|/pip"; then
+if strings "$VOWDO" 2>/dev/null | grep -qE "python3? |uv run|/pip"; then
   echo "note: binary mentions python in embedded strings (informational)"
 fi
-echo "subprocess inventory: vouch-worker + prlimit only (fixture adapter = self re-exec)"
+echo "subprocess inventory: vowdo-worker + prlimit only (fixture adapter = self re-exec)"
 
 step "restricted-PATH native verification COMPLETE"
 echo "workspace: $PROJ"

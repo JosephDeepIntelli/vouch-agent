@@ -1,6 +1,6 @@
 /**
  * Fail-closed verdict ordering (design §3.1/§7.2), ported from
- * `vouch_agent/evaluation/verdict.py`:
+ * the historical Python reference:
  *
  * 1. the rubric must be frozen (error, not a verdict);
  * 2. any hard guardrail violation => REJECTED (never averaged away);

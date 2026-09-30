@@ -1,4 +1,4 @@
-# Python
+# Historical reference tooling caches
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -22,8 +22,9 @@ playwright-report/
 
 # Local project data — task packs, traces, artifacts and exports never enter git
 data/
-# the shared cross-language digest vectors live in-repo on purpose
-!tests/adapters/data/
+*.vowdo/
+.vowdo/
+# Historical workspace data must also remain private.
 *.vouch/
 .vouch/
 work/

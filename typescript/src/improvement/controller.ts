@@ -206,7 +206,7 @@ export class ImprovementController {
       throw new ContractError(
         `workflow ${
           JSON.stringify(workflowId)
-        } has no recorded baseline; run 'vouch improve baseline' first`,
+        } has no recorded baseline; run 'vowdo improve baseline' first`,
       );
     }
     const record = this.workspace.store.load(KIND_BASELINE, String(mapping["baselineRecordId"]));
@@ -221,7 +221,7 @@ export class ImprovementController {
       throw new ContractError(
         `workflow ${
           JSON.stringify(workflowId)
-        } has no frozen rubric; run 'vouch improve baseline' ` +
+        } has no frozen rubric; run 'vowdo improve baseline' ` +
           `first (thresholds freeze after baseline, before candidate search)`,
       );
     }

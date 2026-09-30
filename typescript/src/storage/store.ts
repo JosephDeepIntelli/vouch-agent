@@ -1,11 +1,11 @@
 /**
  * Metadata store + content-addressed artifact store (design §5, §10).
  *
- * TS storage is NAMESPACED: this implementation writes `.vouch/workspace.json`
- * with `tool: "vouch-agent-ts"` and its own schema version (see
+ * TS storage is NAMESPACED: this implementation writes `.vowdo/workspace.json`
+ * with `tool: "vowdo-agent-ts"` and its own schema version (see
  * appservices/workspace.ts). A Python workspace is never opened for writing
  * by this code; the only cross-implementation path is the explicit,
- * backed-up `vouch import-python` migration.
+ * backed-up `vowdo import-python` migration.
  */
 
 import {
@@ -108,7 +108,7 @@ export class MetadataStore {
    */
   transaction<T>(body: () => T): T {
     if (this.txDepth > 0) {
-      const savepoint = `vouch_sp_${this.txDepth}_${crypto.randomUUID().slice(0, 8)}`;
+      const savepoint = `vowdo_sp_${this.txDepth}_${crypto.randomUUID().slice(0, 8)}`;
       this.db.exec(`SAVEPOINT ${savepoint}`);
       this.txDepth += 1;
       try {

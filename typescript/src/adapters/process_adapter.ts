@@ -4,7 +4,7 @@
  * The controller owns the process lifecycle, validates every inbound frame
  * (version, sequence, size — enforced WHILE ACCUMULATING bytes), and kills
  * the subprocess on wall-clock overrun. After a kill the client refuses
- * further work (fail closed). Vouch never imports the runner's source or
+ * further work (fail closed). Vowdo never imports the runner's source or
  * shares credentials with it: the process boundary and the framed protocol
  * are the whole contract.
  */
@@ -84,7 +84,7 @@ export class ProtocolTransport {
       }
       if (frame.kind === "error") {
         const payload = frame.payload;
-        const code = String(payload["code"] ?? "vouch/adapter-execution");
+        const code = String(payload["code"] ?? "vowdo/adapter-execution");
         const message = String(payload["message"] ?? "adapter reported an error");
         const details = payload["details"];
         const suffix = details !== undefined ? ` details=${JSON.stringify(details)}` : "";
@@ -312,7 +312,7 @@ export class ProcessAdapterClient {
    * credentials by name). The default is a NARROW NAME allowlist built with
    * scoped reads — never a copy of the inherited environment — plus the
    * unbuffered flag; combined with clearEnv:true nothing else reaches the
-   * child. No automatic VOUCH_PILOT_CREDENTIAL_* forwarding exists in this
+   * child. No automatic credential forwarding exists in this
    * default path.
    */
   private subprocessEnv(): Record<string, string> {

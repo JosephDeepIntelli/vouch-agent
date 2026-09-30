@@ -1,32 +1,32 @@
 /**
  * Shared contract primitives: run modes, roles, ids, timestamps, digests.
- * Mirrors `vouch_agent/contracts/common.py` (schema v1 records).
+ * Mirrors the historical Python reference (schema v1 records).
  */
 
 import { canonicalJson, DIGEST_PREFIX, digestOf } from "./canonical.ts";
 
 export { canonicalJson, DIGEST_PREFIX, digestOf };
 
-export const TOOL_ID = "vouch-agent-ts";
+export const TOOL_ID = "vowdo-agent-ts";
 
-export class VouchError extends Error {
+export class VowdoError extends Error {
   readonly code: string;
-  constructor(message: string, code = "vouch/error") {
+  constructor(message: string, code = "vowdo/error") {
     super(message);
     this.name = new.target.name;
     this.code = code;
   }
 }
 
-export class ContractError extends VouchError {
+export class ContractError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/contract");
+    super(message, "vowdo/contract");
   }
 }
 
-export class DigestMismatchError extends VouchError {
+export class DigestMismatchError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/digest-mismatch");
+    super(message, "vowdo/digest-mismatch");
   }
 }
 
@@ -37,104 +37,104 @@ export class UnknownVersionError extends ContractError {
   }
 }
 
-export class BudgetError extends VouchError {
-  constructor(message: string, code = "vouch/budget") {
+export class BudgetError extends VowdoError {
+  constructor(message: string, code = "vowdo/budget") {
     super(message, code);
   }
 }
 
 export class BudgetExhaustedError extends BudgetError {
   constructor(message: string) {
-    super(message, "vouch/budget-exhausted");
+    super(message, "vowdo/budget-exhausted");
   }
 }
 
 export class ReservationError extends BudgetError {
   constructor(message: string) {
-    super(message, "vouch/budget-reservation");
+    super(message, "vowdo/budget-reservation");
   }
 }
 
 export class UnmeasurableCostError extends BudgetError {
   constructor(message: string) {
-    super(message, "vouch/budget-unmeasurable");
+    super(message, "vowdo/budget-unmeasurable");
   }
 }
 
-export class GateDeniedError extends VouchError {
+export class GateDeniedError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/gate-denied");
+    super(message, "vowdo/gate-denied");
   }
 }
 
-export class SplitAccessError extends VouchError {
+export class SplitAccessError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/split-access");
+    super(message, "vowdo/split-access");
   }
 }
 
-export class LiveCallBlockedError extends VouchError {
+export class LiveCallBlockedError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/live-call-blocked");
+    super(message, "vowdo/live-call-blocked");
   }
 }
 
-export class ReplayExhaustedError extends VouchError {
+export class ReplayExhaustedError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/replay-exhausted");
+    super(message, "vowdo/replay-exhausted");
   }
 }
 
-export class SideEffectBlockedError extends VouchError {
+export class SideEffectBlockedError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/side-effect-blocked");
+    super(message, "vowdo/side-effect-blocked");
   }
 }
 
-export class UnsupportedIsolationError extends VouchError {
+export class UnsupportedIsolationError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/unsupported-isolation");
+    super(message, "vowdo/unsupported-isolation");
   }
 }
 
-export class ReconciliationRequiredError extends VouchError {
+export class ReconciliationRequiredError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/reconciliation-required");
+    super(message, "vowdo/reconciliation-required");
   }
 }
 
-export class InvalidStateTransitionError extends VouchError {
+export class InvalidStateTransitionError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/invalid-transition");
+    super(message, "vowdo/invalid-transition");
   }
 }
 
-export class ApprovalInvalidatedError extends VouchError {
+export class ApprovalInvalidatedError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/approval-invalidated");
+    super(message, "vowdo/approval-invalidated");
   }
 }
 
-export class ProtocolFrameError extends VouchError {
+export class ProtocolFrameError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/protocol-frame");
+    super(message, "vowdo/protocol-frame");
   }
 }
 
-export class AdapterExecutionError extends VouchError {
+export class AdapterExecutionError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/adapter-execution");
+    super(message, "vowdo/adapter-execution");
   }
 }
 
-export class MissingMeteringError extends VouchError {
+export class MissingMeteringError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/missing-metering");
+    super(message, "vowdo/missing-metering");
   }
 }
 
 /** A failed runtime step that kept its metering (usage that survived). */
-export class StepFailureError extends VouchError {
+export class StepFailureError extends VowdoError {
   readonly usage: Record<string, unknown> | null;
   constructor(code: string, message: string, usage: Record<string, unknown> | null = null) {
     super(message, code);

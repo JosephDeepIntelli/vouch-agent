@@ -34,9 +34,9 @@
     "fmt-fix": "deno fmt",
     "lint": "deno lint",
     "check": "deno check src/**/*.ts tests/**/*.ts",
-    "test": "deno test --no-prompt --allow-read --allow-write --allow-run --allow-env=VOUCH_TS_TEST_CHOOSE_ROOT,VOUCH_TEST_ENV_SENTINEL,VOUCH_PILOT_CREDENTIAL_TEST,PATH,HOME tests/",
-    "compile": "deno compile --no-prompt --target x86_64-unknown-linux-gnu --output dist/vouch --allow-read --allow-write --allow-run src/cli/main.ts",
-    "compile-worker": "deno compile --no-prompt --target x86_64-unknown-linux-gnu --output dist/vouch-worker src/runtime/worker_main.ts",
+    "test": "deno test --no-prompt --allow-read --allow-write --allow-run --allow-env=VOWDO_TEST_CHOOSE_ROOT,VOWDO_TEST_ENV_SENTINEL,VOUCH_PILOT_CREDENTIAL_TEST,PATH,HOME tests/",
+    "compile": "deno compile --no-prompt --target x86_64-unknown-linux-gnu --output dist/vowdo --allow-read --allow-write --allow-run src/cli/main.ts",
+    "compile-worker": "deno compile --no-prompt --target x86_64-unknown-linux-gnu --output dist/vowdo-worker src/runtime/worker_main.ts",
     "compile-all": "deno task compile && deno task compile-worker"
   },
   "lock": true

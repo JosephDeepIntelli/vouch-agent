@@ -8,9 +8,9 @@
  * Spawn boundary (honest, recorded per spawn):
  *  - dev: `deno run --no-prompt` on worker_main.ts with NO allow flags —
  *    a true Deno permission sandbox (no read/net/env/run).
- *  - compiled with vouch-worker present: that binary, compiled with no
+ *  - compiled with vowdo-worker present: that binary, compiled with no
  *    permissions.
- *  - compiled without vouch-worker: refuses isolated execution with an
+ *  - compiled without vowdo-worker: refuses isolated execution with an
  *    actionable error (the main binary's compiled-in permissions are too
  *    broad to claim as a worker boundary); `--worker-path` may point at a
  *    zero-permission worker explicitly.
@@ -26,7 +26,7 @@ import {
   ContractError,
   StepFailureError,
   UnsupportedIsolationError,
-  VouchError,
+  VowdoError,
 } from "../contracts/common.ts";
 import { isFile } from "../contracts/fsutil.ts";
 import { isolatedChildSpawn } from "./spawn.ts";
@@ -95,14 +95,14 @@ function locateSpawn(options: WorkerRuntimeOptions): WorkerSpawn {
         : "deno-run:no-allow-flags",
     };
   }
-  // Compiled main binary: look for vouch-worker beside it.
+  // Compiled main binary: look for vowdo-worker beside it.
   const exec = Deno.execPath();
-  const sibling = `${exec.slice(0, exec.lastIndexOf("/"))}/vouch-worker`;
+  const sibling = `${exec.slice(0, exec.lastIndexOf("/"))}/vowdo-worker`;
   if (isFile(sibling)) {
     return { command: sibling, args: [], boundary: "compiled-worker:no-permissions" };
   }
   throw new UnsupportedIsolationError(
-    `isolated execution needs the zero-permission vouch-worker binary next to ${exec} ` +
+    `isolated execution needs the zero-permission vowdo-worker binary next to ${exec} ` +
       `(or --worker-path); the main binary's compiled permissions are too broad to claim as ` +
       `a worker boundary — use --inline for the shipped trusted sample scripts`,
   );
@@ -173,7 +173,7 @@ export class WorkerProcessRuntime implements Runtime {
   }
 
   backendId(): string {
-    return "vouch-worker-scripted/1";
+    return "vowdo-worker-scripted/1";
   }
 
   async openSession(
@@ -303,7 +303,7 @@ class WorkerSessionImpl implements RuntimeSession {
       const frame = await this.readLine();
       if (frame === null) {
         throw new StepFailureError(
-          "vouch/adapter-execution",
+          "vowdo/adapter-execution",
           "worker exited mid-step",
           this.usageSnapshot,
         );
@@ -315,7 +315,7 @@ class WorkerSessionImpl implements RuntimeSession {
           await this.writeLine({
             t: "budget.denied",
             rid,
-            code: "vouch/budget",
+            code: "vowdo/budget",
             message: "no query budget is attached to this session",
           });
           continue;
@@ -324,7 +324,7 @@ class WorkerSessionImpl implements RuntimeSession {
           const reservationId = this.budget.reserveQuery(estimate);
           await this.writeLine({ t: "budget.ok", rid, reservationId });
         } catch (exc) {
-          if (exc instanceof VouchError) {
+          if (exc instanceof VowdoError) {
             await this.writeLine({
               t: "budget.denied",
               rid,
@@ -361,7 +361,7 @@ class WorkerSessionImpl implements RuntimeSession {
           promptTokens: numOrNull(frame["promptTokens"]),
           completionTokens: numOrNull(frame["completionTokens"]),
           costUsd: numOrNull(frame["costUsd"]),
-          modelId: String(raw["model"] ?? "vouch-scripted/fixture-1"),
+          modelId: String(raw["model"] ?? "vowdo-scripted/fixture-1"),
           raw,
         };
       }
@@ -370,14 +370,14 @@ class WorkerSessionImpl implements RuntimeSession {
           this.usageSnapshot = frame["usage"] as Record<string, unknown>;
         }
         throw new StepFailureError(
-          String(frame["code"] ?? "vouch/script-error"),
+          String(frame["code"] ?? "vowdo/script-error"),
           String(frame["message"] ?? ""),
           this.usageSnapshot,
         );
       }
       if (frame["t"] === "fatal") {
         throw new StepFailureError(
-          String(frame["code"] ?? "vouch/protocol-frame"),
+          String(frame["code"] ?? "vowdo/protocol-frame"),
           String(frame["message"] ?? "worker fatal"),
           this.usageSnapshot,
         );

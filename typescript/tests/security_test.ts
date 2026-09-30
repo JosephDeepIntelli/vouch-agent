@@ -30,7 +30,7 @@ function rmrf(path: string): void {
 }
 
 function tempDir(name: string): string {
-  const dir = `/tmp/vouch-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
+  const dir = `/tmp/vowdo-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
   Deno.mkdirSync(dir, { recursive: true });
   return dir;
 }
@@ -199,30 +199,30 @@ Deno.test({
     const root = tempDir("sym-workspace");
     const outside = tempDir("sym-workspace-outside");
     try {
-      Deno.mkdirSync(`${root}/.vouch`, { recursive: true });
+      Deno.mkdirSync(`${root}/.vowdo`, { recursive: true });
       // workspace.json as a link → open refuses
       Deno.writeTextFileSync(
         `${outside}/marker.json`,
         JSON.stringify({
           schemaVersion: "2",
-          tool: "vouch-agent-ts",
+          tool: "vowdo-agent-ts",
           toolVersion: "0.2.0rc2",
           projectId: "p",
           storage: "ts-1",
         }),
       );
-      Deno.symlinkSync(`${outside}/marker.json`, `${root}/.vouch/workspace.json`);
+      Deno.symlinkSync(`${outside}/marker.json`, `${root}/.vowdo/workspace.json`);
       assertThrows(() => ProjectWorkspace.open(root), ContractError, "symbolic link");
-      Deno.removeSync(`${root}/.vouch/workspace.json`);
+      Deno.removeSync(`${root}/.vowdo/workspace.json`);
 
       // meta.sqlite as a link → open refuses before any DB write
       Deno.writeFileSync(`${outside}/meta.sqlite`, new TextEncoder().encode(""));
-      Deno.symlinkSync(`${outside}/meta.sqlite`, `${root}/.vouch/meta.sqlite`);
+      Deno.symlinkSync(`${outside}/meta.sqlite`, `${root}/.vowdo/meta.sqlite`);
       Deno.writeTextFileSync(
-        `${root}/.vouch/workspace.json`,
+        `${root}/.vowdo/workspace.json`,
         JSON.stringify({
           schemaVersion: "2",
-          tool: "vouch-agent-ts",
+          tool: "vowdo-agent-ts",
           toolVersion: "0.2.0rc2",
           projectId: "p",
           storage: "ts-1",
@@ -242,7 +242,7 @@ Deno.test({
   async fn() {
     // Seed a synthetic sentinel (explicitly NOT a secret) in THIS process.
     try {
-      Deno.env.set("VOUCH_TEST_ENV_SENTINEL", "synthetic-review-sentinel");
+      Deno.env.set("VOWDO_TEST_ENV_SENTINEL", "synthetic-review-sentinel");
     } catch {
       throw new Error("test runner lacks env write for the sentinel; extend --allow-env");
     }
@@ -251,7 +251,7 @@ Deno.test({
       deno,
       "run",
       "--no-prompt",
-      "--allow-env=VOUCH_TEST_ENV_SENTINEL",
+      "--allow-env=VOWDO_TEST_ENV_SENTINEL",
       "tests/helpers/env_probe.ts",
     ];
     // Sanity: a plain inherited spawn DOES see the sentinel (proves the
@@ -290,7 +290,7 @@ Deno.test({
 
     // (c) EXPLICIT env is documented caller authority and DOES pass through.
     const explicit = isolatedChildSpawn(probe[0], probe.slice(1), {
-      VOUCH_TEST_ENV_SENTINEL: "caller-authorized",
+      VOWDO_TEST_ENV_SENTINEL: "caller-authorized",
     });
     const passed = await new Deno.Command(explicit.command, {
       args: explicit.args,
@@ -323,7 +323,7 @@ Deno.test({
       "pilot-credential variables must not auto-forward to isolated children",
     );
     Deno.env.delete("VOUCH_PILOT_CREDENTIAL_TEST");
-    Deno.env.delete("VOUCH_TEST_ENV_SENTINEL");
+    Deno.env.delete("VOWDO_TEST_ENV_SENTINEL");
   },
 });
 
@@ -334,7 +334,7 @@ Deno.test({
     const workerModule = new URL("../src/runtime/worker_main.ts", import.meta.url).pathname;
     // Scoped grants (the rc3 blind spot): a name-only query reports `prompt`
     // for these, so only revocation + functional probes prove the boundary.
-    const syntheticDir = await Deno.makeTempDir({ prefix: "vouch-scoped-grant-" });
+    const syntheticDir = await Deno.makeTempDir({ prefix: "vowdo-scoped-grant-" });
     const cases: Array<{ label: string; flags: string[] }> = [
       { label: "scoped write", flags: [`--allow-write=${syntheticDir}`] },
       { label: "scoped write /tmp", flags: ["--allow-write=/tmp"] },
@@ -441,7 +441,7 @@ Deno.test({
     // Through the runtime: a failed worker launch (bad flag) also leaves no
     // running child behind the propagated error.
     const refusedRuntime = new WorkerProcessRuntime({
-      workerExtraArgs: ["--vouch-test-unknown-flag"],
+      workerExtraArgs: ["--vowdo-test-unknown-flag"],
     });
     try {
       await refusedRuntime.openSession(
@@ -499,7 +499,7 @@ Deno.test({
   async fn() {
     const workspace = taskOnlyWorkspace("receipt-binding");
     try {
-      const fixturesPath = `${workspace.vouchDir}/fixtures-improvement.json`;
+      const fixturesPath = `${workspace.vowdoDir}/fixtures-improvement.json`;
       // minimal synthetic pack with one development case
       Deno.writeTextFileSync(
         fixturesPath,
@@ -623,7 +623,7 @@ Deno.test({
         "../src/improvement/flow.ts"
       );
       Deno.writeTextFileSync(
-        `${workspace.vouchDir}/fixtures-improvement.json`,
+        `${workspace.vowdoDir}/fixtures-improvement.json`,
         JSON.stringify(SYNTHETIC_FIXTURE_PACK),
       );
       const mainModule = new URL("../src/cli/main.ts", import.meta.url).pathname;

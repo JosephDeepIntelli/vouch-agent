@@ -1,4 +1,4 @@
-/** Read-side report: costs + recovery posture for `vouch status`. */
+/** Read-side report: costs + recovery posture for `vowdo status`. */
 
 import { isTerminal } from "../contracts/tasks.ts";
 import { ExecutionService } from "./execution.ts";

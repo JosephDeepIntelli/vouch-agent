@@ -1,6 +1,6 @@
 /**
  * Adapter protocol v1/v1.1 — versioned JSONL frames over stdin/stdout
- * (design §4.2), ported from `vouch_agent/adapters/protocol.py`.
+ * (design §4.2), ported from the historical Python reference.
  *
  * Failure semantics (fail closed, never silently success-shaped): unknown
  * protocolVersion, out-of-order seq, oversized frames (checked WHILE
@@ -424,7 +424,7 @@ export function digestsFromPayload(payload: Record<string, unknown>): string[] {
 export function okFromPayload(payload: Record<string, unknown>, kind: FrameKind): void {
   if (payload["ok"] !== true) {
     const message = String(payload["message"] ?? "");
-    const code = String(payload["code"] ?? "vouch/adapter-execution");
+    const code = String(payload["code"] ?? "vowdo/adapter-execution");
     throw new AdapterExecutionError(`${kind} failed (${code}): ${message}`);
   }
 }

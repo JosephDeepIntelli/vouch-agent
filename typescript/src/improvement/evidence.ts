@@ -16,7 +16,7 @@ import type { EvaluationRun } from "./controller.ts";
 import type { ProjectWorkspace } from "../appservices/workspace.ts";
 
 export const EVIDENCE_MANIFEST = "evidence-manifest.json";
-export const INCOMPLETE_MARKER = ".vouch-export-incomplete";
+export const INCOMPLETE_MARKER = ".vowdo-export-incomplete";
 
 export interface EvidencePackage {
   manifestDigest: string;
@@ -95,7 +95,7 @@ export function exportEvidencePackage(
     }
     const manifest: Record<string, unknown> = {
       schemaVersion: "1",
-      kind: "vouch-evidence-package",
+      kind: "vowdo-evidence-package",
       runId: run.runId,
       workflowId: run.workflowId,
       candidateId: run.candidateId,
@@ -153,7 +153,13 @@ export function verifyEvidencePackage(destination: string): Record<string, unkno
     );
   }
   const manifest = JSON.parse(Deno.readTextFileSync(manifestPath));
-  if (!isPlainObject(manifest) || manifest["kind"] !== "vouch-evidence-package") {
+  // Historical pre-rename evidence packages ("vouch-evidence-package")
+  // verify read-only under the same rules.
+  if (
+    !isPlainObject(manifest) ||
+    (manifest["kind"] !== "vowdo-evidence-package" &&
+      manifest["kind"] !== "vouch-evidence-package")
+  ) {
     throw new ContractError(`manifest of ${destination} is not an evidence package`);
   }
   const listed = manifest["artifacts"];

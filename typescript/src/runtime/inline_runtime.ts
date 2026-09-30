@@ -40,7 +40,7 @@ export class InlineRuntime implements Runtime {
   constructor(_sealedScriptsDigest: string | null = null) {}
 
   backendId(): string {
-    return "vouch-inline-scripted/1";
+    return "vowdo-inline-scripted/1";
   }
 
   async openSession(
@@ -126,7 +126,7 @@ class InlineSession implements RuntimeSession {
       promptTokens: result.promptTokens,
       completionTokens: result.completionTokens,
       costUsd: result.costUsd,
-      modelId: "vouch-scripted/fixture-1",
+      modelId: "vowdo-scripted/fixture-1",
       raw: { return_value: result.returnValue, llm_calls: result.llmCalls },
     };
   }

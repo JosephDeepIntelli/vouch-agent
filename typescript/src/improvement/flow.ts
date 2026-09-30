@@ -38,7 +38,7 @@ export interface RunnerConfig {
 }
 
 export function loadRunnerConfig(workspace: ProjectWorkspace): RunnerConfig | null {
-  const path = `${workspace.vouchDir}/runners.json`;
+  const path = `${workspace.vowdoDir}/runners.json`;
   if (!isFile(path)) return null;
   const parsed = JSON.parse(Deno.readTextFileSync(path));
   if (!isRunnerConfig(parsed)) {
@@ -54,7 +54,7 @@ function isRunnerConfig(value: unknown): value is RunnerConfig {
 }
 
 export function saveRunnerConfig(workspace: ProjectWorkspace, config: RunnerConfig): string {
-  const path = `${workspace.vouchDir}/runners.json`;
+  const path = `${workspace.vowdoDir}/runners.json`;
   Deno.writeTextFileSync(path, JSON.stringify(config, null, 2) + "\n");
   return path;
 }
@@ -124,7 +124,7 @@ export class ImprovementFlow {
     const version = agentVersion({
       versionId: options.versionId,
       sourceRef: options.sourceRef,
-      environmentDigest: digestOf({ tool: "vouch-agent-ts", env: "local-fixture" }),
+      environmentDigest: digestOf({ tool: "vowdo-agent-ts", env: "local-fixture" }),
     });
     const baselineRecordId = this.controller.recordBaseline(version, options.workflowId);
     const thresholds: Record<string, number> = {
@@ -193,7 +193,7 @@ export class ImprovementFlow {
       if (!isFile(fixturesPath)) {
         throw new ContractError(
           `fixture pack ${JSON.stringify(fixturesPath)} does not exist; create it with ` +
-            `'vouch improve fixtures --out <path>' or configure a runner (runners.json)`,
+            `'vowdo improve fixtures --out <path>' or configure a runner (runners.json)`,
         );
       }
       return new ProcessAdapterClient(
@@ -208,7 +208,7 @@ export class ImprovementFlow {
       if (runner === undefined) {
         throw new ContractError(
           `runner ${JSON.stringify(name)} is not configured; record its command in ` +
-            `${this.workspace.vouchDir}/runners.json (explicit locations only, never guessed)`,
+            `${this.workspace.vowdoDir}/runners.json (explicit locations only, never guessed)`,
         );
       }
       if (!isFile(runner.command[0])) {
@@ -260,7 +260,7 @@ export class ImprovementFlow {
     const split = options.split ?? "development";
     if (split === "final-acceptance") {
       throw new ContractError(
-        "final acceptance runs through 'vouch improve accept' (the acceptance side owns that split)",
+        "final acceptance runs through 'vowdo improve accept' (the acceptance side owns that split)",
       );
     }
     const fixturesPath = loadRunnerConfig(this.workspace)?.fixture?.fixturesPath ??
@@ -348,13 +348,13 @@ export class ImprovementFlow {
 }
 
 export function defaultFixturesPath(workspace: ProjectWorkspace): string {
-  return `${workspace.vouchDir}/fixtures-improvement.json`;
+  return `${workspace.vowdoDir}/fixtures-improvement.json`;
 }
 
 export const SYNTHETIC_FIXTURE_PACK = {
   schemaVersion: 1,
   synthetic: true,
-  packId: "vouch-ts-improvement-fixtures-v1",
+  packId: "vowdo-improvement-fixtures-v1",
   notes:
     "SYNTHETIC improvement-semantics fixtures: deterministic paired baseline/candidate outcomes " +
     "that prove sealing, comparison, acceptance and invalidation. NOT evidence of model or product " +

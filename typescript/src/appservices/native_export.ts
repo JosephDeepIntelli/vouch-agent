@@ -20,7 +20,7 @@ import {
 import type { ProjectWorkspace } from "./workspace.ts";
 
 export const MANIFEST_NAME = "manifest.json";
-export const INCOMPLETE_MARKER = ".vouch-export-incomplete";
+export const INCOMPLETE_MARKER = ".vowdo-export-incomplete";
 
 /** Manifest artifact names: ONE safe filename segment — no traversal, no
  * separators, no hidden files, bounded charset (exports write this shape). */
@@ -111,7 +111,14 @@ export function verifyNativeExport(destination: string): Record<string, unknown>
   } catch (exc) {
     throw new ContractError(`export manifest of ${destination} is not valid JSON: ${exc}`);
   }
-  if (!isPlainObject(manifest) || manifest["kind"] !== "vouch-native-run-export") {
+  // Current exports carry the Vowdo kind; exports written before the rename
+  // carry the historical "vouch-native-run-export" kind and verify READ-ONLY
+  // (the artifact/digest rules are identical — only the label changed).
+  if (
+    !isPlainObject(manifest) ||
+    (manifest["kind"] !== "vowdo-native-run-export" &&
+      manifest["kind"] !== "vouch-native-run-export")
+  ) {
     throw new ContractError(`manifest of ${destination} is not a native run export`);
   }
   const listed = manifest["artifacts"];
@@ -233,7 +240,7 @@ function buildManifest(
   }
   const manifest: Record<string, unknown> = {
     schemaVersion: "2",
-    kind: "vouch-native-run-export",
+    kind: "vowdo-native-run-export",
     runId: run.runId,
     taskSpecId: run.specId ?? indexedSpecId(workspace, run.runId),
     taskDigest: run.taskDigest,
@@ -305,7 +312,7 @@ function artifactFilename(index: number, digest: string): string {
 function atomicWrite(path: string, payload: Uint8Array): void {
   const tmp = joinPath(
     path.slice(0, path.lastIndexOf("/")),
-    `.vouch-export-${crypto.randomUUID().slice(0, 12)}`,
+    `.vowdo-export-${crypto.randomUUID().slice(0, 12)}`,
   );
   try {
     Deno.writeFileSync(tmp, payload);

@@ -7,14 +7,14 @@
 **Work you can inspect. Results you can verify.**
 
 [Website — coming soon](https://vowdo.dpintelli.com) ·
-[Download preview](https://github.com/JosephDeepIntelli/vowdo-agent/releases/tag/v0.2.0rc4) ·
+[Download preview](https://github.com/JosephDeepIntelli/vowdo-agent/releases/tag/v0.2.0rc5) ·
 [Contribute](CONTRIBUTING.md)
 
 Vowdo is an open-source, local-first agent core for inspectable execution,
 verifiable outputs and durable recovery. Useful work should come with
 evidence, clear boundaries and a way to recover.
 
-The **0.2.0rc4 native preview** is built with **TypeScript on Deno**.
+The **0.2.0rc5 native preview** is built with **TypeScript on Deno**.
 Download the Linux x64 binaries and run them locally: no Python, account,
 API key or model call is needed for the supported CSV workflow. Compare
 two files, inspect what changed, and export a result you can verify
@@ -56,12 +56,34 @@ that an input is true, authenticate its author or replace independent review.
 
 ## Try the native preview
 
-Download the current Linux x64 preview from the
-[release page](https://github.com/JosephDeepIntelli/vowdo-agent/releases/tag/v0.2.0rc4).
-The release includes installation instructions, both executable binaries,
-source, runtime license texts and checksums. See the
-[quickstart](docs/quickstart.md) for the supported local CSV workflow and
-[CONTRIBUTING.md](CONTRIBUTING.md) to build and test from source.
+Download `vowdo-agent-0.2.0rc5-linux-x64.tar.gz` and `SHA256SUMS` from the
+[release page](https://github.com/JosephDeepIntelli/vowdo-agent/releases/tag/v0.2.0rc5).
+Verify the download, then extract it:
+
+```sh
+sha256sum --ignore-missing -c SHA256SUMS
+tar -xzf vowdo-agent-0.2.0rc5-linux-x64.tar.gz
+cd vowdo-agent-0.2.0rc5-linux-x64
+./bin/vowdo version
+./bin/vowdo examples --out samples
+./bin/vowdo init --task-only --project work --purpose "supplier sync"
+./bin/vowdo reconcile --project work \
+  --left "samples/产品 目录.csv" --right "samples/supplier feed.csv" --join-key sku
+./bin/vowdo runs --project work
+```
+
+The samples are **synthetic**. Use the run ID printed by `reconcile`:
+
+```sh
+./bin/vowdo run-status --project work RUN_ID
+./bin/vowdo export-run --project work RUN_ID --out work/export
+./bin/vowdo verify-export work/export
+```
+
+Keep `vowdo` and `vowdo-worker` together in `bin/`. This preview is verified
+on **Linux x64**; Windows, macOS, ARM and broader Linux compatibility are
+not verified. See the [quickstart](docs/quickstart.md) for permissions,
+building from source and the previous Python release.
 
 ## What works today
 

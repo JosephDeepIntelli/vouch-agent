@@ -1,6 +1,6 @@
 /**
  * The Supervisor — bounded business task execution (design §4.4, §10).
- * Faithful port of `vouch_agent/orchestrator/supervisor.py`:
+ * Faithful port of the historical Python reference:
  *
  * - budget reserved at submit, BEFORE any step runs; every underlying query
  *   carves an atomic child reservation before the call (nested included);
@@ -28,7 +28,7 @@ import {
   ReservationError,
   StepFailureError,
   utcNowIso,
-  VouchError,
+  VowdoError,
 } from "../contracts/common.ts";
 import {
   type BudgetReservationData,
@@ -1177,7 +1177,7 @@ export class Supervisor {
     try {
       result = await session.step(instruction, { materials, priorArtifacts: priorArtifacts });
     } catch (exc) {
-      if (exc instanceof VouchError) {
+      if (exc instanceof VowdoError) {
         // Known protocol failure — but never an excuse to book zero: the
         // measured usage that survived is recovered from the error itself or
         // the session's metering snapshots.

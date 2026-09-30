@@ -7,7 +7,7 @@
  * process boundary and frames are the whole contract).
  *
  * Configuration (explicit, no machine-specific paths in this file):
- *   VOUCH_TS_TEST_CHOOSE_ROOT=<choose-website checkout>
+ *   VOWDO_TEST_CHOOSE_ROOT=<choose-website checkout>
  * The test runner grants a SCOPED env read for exactly this variable
  * (see the `test` task in deno.json). Unset ⇒ the test is reported by the
  * runner as IGNORED (never counted as passed). Configured but broken ⇒
@@ -21,7 +21,7 @@ import { isFile } from "../src/contracts/fsutil.ts";
 
 function chooseRoot(): string | undefined {
   try {
-    const value = Deno.env.get("VOUCH_TS_TEST_CHOOSE_ROOT");
+    const value = Deno.env.get("VOWDO_TEST_CHOOSE_ROOT");
     return value !== undefined && value.trim().length > 0 ? value.trim() : undefined;
   } catch {
     // env permission not granted for this variable — same as unconfigured
@@ -36,7 +36,7 @@ Deno.test({
   ignore: ROOT === undefined,
   async fn() {
     const root = ROOT!;
-    const runner = `${root}/scripts/vouch/runner.ts`;
+    const runner = `${root}/scripts/vowdo/runner.ts`;
     const tsx = `${root}/node_modules/.bin/tsx`;
     assertTrue(
       isFile(runner),

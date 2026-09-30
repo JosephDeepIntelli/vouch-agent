@@ -1,5 +1,5 @@
 /**
- * Adapter tests: adapter protocol validation (negative paths), the loopback
+ * Gate 3 tests: adapter protocol validation (negative paths), the loopback
  * fixture adapter through the REAL subprocess transport, and the improvement
  * lifecycle — baseline freeze, sealed proposals, paired evaluation,
  * fail-closed verdicts, acceptance binding + approval invalidation, evidence
@@ -49,7 +49,7 @@ function rmrf(path: string): void {
 const MAIN_MODULE = new URL("../src/cli/main.ts", import.meta.url).href.replace("file://", "");
 
 function improvementWorkspace(name: string): ProjectWorkspace {
-  const dir = `/tmp/vouch-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
+  const dir = `/tmp/vowdo-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
   Deno.mkdirSync(dir, { recursive: true });
   const spec = specFromDict({
     schemaVersion: "1",
@@ -266,7 +266,7 @@ Deno.test({
         const descriptor = await client.describe();
         assertEquals(
           descriptor.adapterId,
-          "vouch-fixture-adapter/vouch-ts-improvement-fixtures-v1",
+          "vowdo-fixture-adapter/vowdo-improvement-fixtures-v1",
         );
         assertEquals(descriptor.enforcedModes, ["fixture"]);
         assertTrue(descriptor.workflows.includes("W-C3"));
@@ -501,7 +501,7 @@ Deno.test({
 Deno.test({
   name: "improvement: task-only workspace refuses improvement commands (no invented owners)",
   fn() {
-    const dir = `/tmp/vouch-ts-tests/taskonly-refuse-${crypto.randomUUID().slice(0, 8)}`;
+    const dir = `/tmp/vowdo-ts-tests/taskonly-refuse-${crypto.randomUUID().slice(0, 8)}`;
     Deno.mkdirSync(dir, { recursive: true });
     const spec = specFromDict({
       schemaVersion: "1",

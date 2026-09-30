@@ -1,6 +1,6 @@
 /**
- * Direct task execution service — the shared layer behind `vouch run`,
- * `vouch reconcile` and the detached worker.
+ * Direct task execution service — the shared layer behind `vowdo run`,
+ * `vowdo reconcile` and the detached worker.
  *
  * Durable execution configuration (Python Gate A2 parity): the FIRST
  * execute of a run persists exactly what will execute (scripts + digest,
@@ -12,7 +12,7 @@
  */
 
 import { digestOf } from "../contracts/canonical.ts";
-import { ContractError, DigestMismatchError, VouchError } from "../contracts/common.ts";
+import { ContractError, DigestMismatchError, VowdoError } from "../contracts/common.ts";
 import {
   newTaskSpecId,
   runFromDict,
@@ -45,7 +45,7 @@ export const KIND_RESULT_PACKAGE = "result-package";
 export const KIND_TASK_SPEC = "task-spec";
 export const KIND_RUN_INDEX = "run-index";
 
-export const CSV_OPERATION_ID = "vouch-csv-reconcile/1";
+export const CSV_OPERATION_ID = "vowdo-csv-reconcile/1";
 
 export interface ExecutionOutcome {
   runId: string;
@@ -134,7 +134,7 @@ export class ExecutionService {
     } catch (exc) {
       // config mismatch is a refused dispatch, not a crash: the run keeps
       // its sealed configuration for a legitimate resume
-      if (exc instanceof VouchError) return this.errorOutcome(runId, exc);
+      if (exc instanceof VowdoError) return this.errorOutcome(runId, exc);
       throw exc;
     }
     const supervisor = this.supervisor(scripts, {
@@ -193,7 +193,7 @@ export class ExecutionService {
     try {
       config = this.loadVerifiedConfig(runId);
     } catch (exc) {
-      if (exc instanceof VouchError) return this.errorOutcome(runId, exc);
+      if (exc instanceof VowdoError) return this.errorOutcome(runId, exc);
       throw exc;
     }
     const scripts = (config["scripts"] as string[]) ?? [];
@@ -519,7 +519,7 @@ export class ExecutionService {
       scriptsDigest: operationDigest,
       mode: "fixture",
       isolated: false, // trusted deterministic code, no model child
-      runtimeId: `vouch-native-operation/${CSV_OPERATION_ID}`,
+      runtimeId: `vowdo-native-operation/${CSV_OPERATION_ID}`,
       toolVersion: VERSION,
     });
     store.save(KIND_RUN_QUERY_CURSOR, runId, {
@@ -563,7 +563,7 @@ export class ExecutionService {
     try {
       config = this.loadVerifiedOperationConfig(runId);
     } catch (exc) {
-      if (exc instanceof VouchError) return this.errorOutcome(runId, exc);
+      if (exc instanceof VowdoError) return this.errorOutcome(runId, exc);
       throw exc;
     }
     const compute = this.nativeCompute(config, reportSink);

@@ -3,7 +3,7 @@
  * run clock. Terminal status alone never proves finalization completed.
  */
 
-import { checkVersion, ContractError, utcNowIso, VouchError } from "../contracts/common.ts";
+import { checkVersion, ContractError, utcNowIso, VowdoError } from "../contracts/common.ts";
 import type { TaskRunData } from "../contracts/tasks.ts";
 import type { MetadataStore } from "../storage/store.ts";
 
@@ -19,9 +19,9 @@ export const FINALIZATION_WRITES = [
 ] as const;
 export type FinalizationWrite = (typeof FINALIZATION_WRITES)[number];
 
-export class RunOwnershipError extends VouchError {
+export class RunOwnershipError extends VowdoError {
   constructor(message: string) {
-    super(message, "vouch/run-ownership");
+    super(message, "vowdo/run-ownership");
   }
 }
 

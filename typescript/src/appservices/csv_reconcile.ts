@@ -1,7 +1,7 @@
 /**
  * CSV reconciliation — the shipped deterministic business utility.
  *
- * Ported from `vouch_agent/appservices/csv_reconcile.py` with its exact
+ * Ported from the historical Python reference with its exact
  * observable behavior: duplicate/empty header rejection, empty-key rows that
  * never join, ambiguous duplicate keys (never silently authoritative),
  * physical source-line references (multiline quoted records included),
@@ -39,7 +39,7 @@ interface Row {
 export interface ReconcileReport {
   schemaVersion: "2";
   kind: "csv-reconciliation";
-  operation: "vouch-csv-reconcile/1";
+  operation: "vowdo-csv-reconcile/1";
   deterministic: true;
   joinKey: string;
   rowCounts: { left: number; right: number; matched: number };
@@ -448,7 +448,7 @@ export function reconcileCsvs(
   return {
     schemaVersion: "2",
     kind: "csv-reconciliation",
-    operation: "vouch-csv-reconcile/1",
+    operation: "vowdo-csv-reconcile/1",
     deterministic: true,
     joinKey,
     rowCounts: { left: leftIndex.rows.length, right: rightIndex.rows.length, matched },

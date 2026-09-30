@@ -13,12 +13,12 @@
  */
 
 export const SCRIPT_CALL_COST_USD = 0.01;
-export const SCRIPT_MODEL_ID = "vouch-scripted/fixture-1";
+export const SCRIPT_MODEL_ID = "vowdo-scripted/fixture-1";
 export const MAX_INVOCATION_DEPTH = 8;
 const TOKENS_PER_CHAR = 4;
 
 export class ReplayExhausted extends Error {
-  readonly code = "vouch/replay-exhausted";
+  readonly code = "vowdo/replay-exhausted";
 }
 
 export interface InvokePort {
@@ -132,7 +132,7 @@ export async function executeScriptedStep(options: {
       costUsd: round6(state.costUsd),
       llmCalls: state.llmCalls,
       error: {
-        code: exc instanceof ReplayExhausted ? "vouch/replay-exhausted" : "vouch/script-error",
+        code: exc instanceof ReplayExhausted ? "vowdo/replay-exhausted" : "vowdo/script-error",
         message: exc instanceof Error ? exc.message : String(exc),
       },
     };

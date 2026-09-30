@@ -1,11 +1,11 @@
 /**
- * Vouch CLI (native TypeScript/Deno) — headless, flag-driven, no prompts.
+ * Vowdo CLI (native TypeScript/Deno) — headless, flag-driven, no prompts.
  * Mirrors the Python reference command surface for the migrated journeys.
  * Every failure prints `fail-closed [<code>]: <message>` on stderr and
  * exits non-zero.
  */
 
-import { ContractError, VouchError } from "../contracts/common.ts";
+import { ContractError, VowdoError } from "../contracts/common.ts";
 import { type ProjectSpecData, specFromDict } from "../contracts/project.ts";
 import { isPlainObject } from "../contracts/canonical.ts";
 import { isTerminal } from "../contracts/tasks.ts";
@@ -45,7 +45,7 @@ DNR-030,Dawn Mug Set,18.00,60,2
 DNR-030,Dawn Mug Set,18.00,55,2
 `;
 
-const SAMPLE_README = `SYNTHETIC sample materials for the vouch native journey.
+const SAMPLE_README = `SYNTHETIC sample materials for the Vowdo native journey.
 Every row is invented data; no real products, suppliers or prices.
 
   left  : "产品 目录.csv" (a product catalog; the filename deliberately
@@ -61,13 +61,13 @@ What the pair demonstrates:
 - lead_days: a right-only column (reported as a schema difference)
 
 Run (from the directory holding these files):
-  vouch init --task-only --project ./vouch-work --purpose "supplier sync"
-  vouch reconcile --project ./vouch-work \\
+  vowdo init --task-only --project ./vowdo-work --purpose "supplier sync"
+  vowdo reconcile --project ./vowdo-work \\
       --left "产品 目录.csv" --right "supplier feed.csv" --join-key sku
-  vouch runs --project ./vouch-work
-  vouch run-status --project ./vouch-work <run-id>
-  vouch export-run --project ./vouch-work <run-id> --out ./vouch-work/export
-  vouch verify-export ./vouch-work/export
+  vowdo runs --project ./vowdo-work
+  vowdo run-status --project ./vowdo-work <run-id>
+  vowdo export-run --project ./vowdo-work <run-id> --out ./vowdo-work/export
+  vowdo verify-export ./vowdo-work/export
 `;
 
 interface Args {
@@ -174,17 +174,17 @@ function hasFlag(args: Args, ...names: string[]): boolean {
   return names.some((n) => args.flags.has(n));
 }
 
-function fail(message: string, code = "vouch/usage"): never {
+function fail(message: string, code = "vowdo/usage"): never {
   console.error(`fail-closed [${code}]: ${message}`);
   Deno.exit(1);
 }
 
 function failClosed(exc: unknown): never {
-  if (exc instanceof VouchError) {
+  if (exc instanceof VowdoError) {
     console.error(`fail-closed [${exc.code}]: ${exc.message}`);
     Deno.exit(1);
   }
-  console.error(`fail-closed [vouch/internal]: ${exc}`);
+  console.error(`fail-closed [vowdo/internal]: ${exc}`);
   Deno.exit(1);
 }
 
@@ -206,14 +206,14 @@ function requireImprovementMode(workspace: ProjectWorkspace): void {
       "improvement and approval commands are refused until a workspace is re-initialized in " +
         "default (improvement) mode with workflows and owners — task-only workspaces never " +
         "invent owner identities",
-      "vouch/contract",
+      "vowdo/contract",
     );
   }
 }
 
-const HELP = `vouch-agent ${VERSION} (native TypeScript/Deno; Python reference stays separate)
+const HELP = `vowdo-agent ${VERSION} (native TypeScript/Deno; Python reference stays separate)
 
-usage: vouch <command> [flags]
+usage: vowdo <command> [flags]
 
 informational
   version                          package + runtime version
@@ -296,7 +296,7 @@ async function main(): Promise<void> {
       console.log(HELP);
       return;
     case "version":
-      console.log(`vouch-agent-ts ${VERSION} (deno-native; Python reference 0.1.0rc1 separate)`);
+      console.log(`vowdo-agent-ts ${VERSION} (deno-native; Python reference 0.1.0rc1 separate)`);
       return;
     case "modes": {
       console.log("fixture: live-calls=false");
@@ -510,7 +510,7 @@ async function main(): Promise<void> {
     }
     default:
       fail(
-        `unknown command ${JSON.stringify(args.command)}; run 'vouch help' for the command list`,
+        `unknown command ${JSON.stringify(args.command)}; run 'vowdo help' for the command list`,
       );
   }
 }
@@ -525,7 +525,7 @@ function cmdInit(args: Args): void {
   const name = flag(args, "--name");
   const projectId = flag(args, "--project-id");
 
-  const dirName = project.split("/").filter(Boolean).pop() ?? "vouch-work";
+  const dirName = project.split("/").filter(Boolean).pop() ?? "vowdo-work";
   if (taskOnly) {
     if (hasFlag(args, "--workflow", "-w") || hasFlag(args, "--owners", "-o")) {
       fail(
@@ -549,7 +549,7 @@ function cmdInit(args: Args): void {
     } catch (exc) {
       failClosed(exc);
     }
-    console.log(`initialized ${project}/.vouch`);
+    console.log(`initialized ${project}/.vowdo`);
     console.log(`project: ${spec.projectId} (${spec.name}) mode: task-only`);
     if (purpose !== "") console.log(`purpose: ${purpose}`);
     console.log(
@@ -557,7 +557,7 @@ function cmdInit(args: Args): void {
         `task-only work is never paid)`,
     );
     console.log(
-      "native journey: vouch examples --out samples && vouch reconcile --project . " +
+      "native journey: vowdo examples --out samples && vowdo reconcile --project . " +
         "--left samples/… --right samples/… --join-key sku",
     );
     console.log(
@@ -614,7 +614,7 @@ function cmdInit(args: Args): void {
   } catch (exc) {
     failClosed(exc);
   }
-  console.log(`initialized ${project}/.vouch`);
+  console.log(`initialized ${project}/.vowdo`);
   console.log(
     `project: ${spec.projectId} (${spec.name}) cap $${spec.budget.totalUsdCap.toFixed(2)}`,
   );
@@ -676,7 +676,7 @@ function cmdRuns(args: Args): void {
   try {
     const history = new ExecutionService(workspace).runs();
     if (history.length === 0) {
-      console.log("no task runs yet — try: vouch run --goal ... --input fact=fact.json");
+      console.log("no task runs yet — try: vowdo run --goal ... --input fact=fact.json");
       return;
     }
     for (const run of history) {
@@ -845,7 +845,7 @@ async function cmdRunDetach(args: Args): Promise<void> {
     workerPath,
   );
   console.log(`detached run: ${runId} (worker pid ${pid})`);
-  console.log("client may exit; reconnect with: vouch runs / vouch run-status / vouch export-run");
+  console.log("client may exit; reconnect with: vowdo runs / vowdo run-status / vowdo export-run");
 }
 
 async function cmdImprove(args: Args): Promise<void> {
@@ -947,7 +947,7 @@ async function cmdImprove(args: Args): Promise<void> {
         const owner = flag(args, "--owner") ??
           fail("--owner is required (the acceptance owner identity)");
         const evidenceOut = flag(args, "--evidence-out") ??
-          `${project}/.vouch/evidence/${candidateId}`;
+          `${project}/.vowdo/evidence/${candidateId}`;
         const outcome = await flow.finalAcceptance({
           candidateId,
           workflowId,
@@ -991,7 +991,7 @@ async function cmdImprove(args: Args): Promise<void> {
           observedWindow: flag(args, "--observed-window"),
         });
         console.log(
-          `release recorded: ${record.releaseId} (rollback via 'vouch improve rollback')`,
+          `release recorded: ${record.releaseId} (rollback via 'vowdo improve rollback')`,
         );
         return;
       }
@@ -1041,7 +1041,7 @@ function cmdRunners(args: Args): void {
     }
     if (config === null) {
       console.log(
-        `no runner configuration (create ${workspace.vouchDir}/runners.json or use 'vouch runners set')`,
+        `no runner configuration (create ${workspace.vowdoDir}/runners.json or use 'vowdo runners set')`,
       );
       console.log("fixture loopback (scripted) is available without configuration");
       return;

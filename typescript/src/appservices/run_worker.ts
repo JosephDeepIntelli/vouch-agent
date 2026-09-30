@@ -76,6 +76,6 @@ function valueAfter(argv: string[], name: string): string | undefined {
 }
 
 function fail(message: string): never {
-  console.error(`fail-closed [vouch/usage]: ${message}`);
+  console.error(`fail-closed [vowdo/usage]: ${message}`);
   Deno.exit(1);
 }

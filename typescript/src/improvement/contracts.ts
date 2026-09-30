@@ -304,7 +304,7 @@ export function verifyBinding(
   ) {
     throw new ContractError(
       "approval binding no longer matches: one of candidate/rubric/environment/case-set digests changed",
-      // code set below by caller to vouch/approval-invalidated
+      // code set below by caller to vowdo/approval-invalidated
     );
   }
 }

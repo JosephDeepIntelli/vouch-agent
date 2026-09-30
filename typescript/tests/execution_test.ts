@@ -1,5 +1,5 @@
 /**
- * Behavioral tests: workspace, storage, supervisor lifecycle for the
+ * Gate 1 behavioral tests: workspace, storage, supervisor lifecycle for the
  * native task journey — durable submit → claimed execution → export →
  * verify → reopen; tamper/changed-input refusal; revision fencing; budget
  * invariants; recovery classification.
@@ -23,7 +23,7 @@ import { Journal } from "../src/storage/journal.ts";
 import { specFromDict } from "../src/contracts/project.ts";
 
 function tempDir(name: string): string {
-  const dir = `/tmp/vouch-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
+  const dir = `/tmp/vowdo-ts-tests/${name}-${crypto.randomUUID().slice(0, 8)}`;
   Deno.mkdirSync(dir, { recursive: true });
   return dir;
 }
@@ -146,7 +146,7 @@ Deno.test({
       const result = service.resultOf(runId)!;
       const final = result.artifactRefs[result.artifactRefs.length - 1];
       // Artifact store re-verifies on read
-      const artifactsDir = `${workspace.vouchDir}/artifacts`;
+      const artifactsDir = `${workspace.vowdoDir}/artifacts`;
       const fileName = final.slice("sha256:".length);
       const original = Deno.readFileSync(`${artifactsDir}/${fileName}`);
       Deno.writeFileSync(`${artifactsDir}/${fileName}`, new TextEncoder().encode("tampered"));
@@ -194,7 +194,7 @@ Deno.test({
       assertThrows(() => ProjectWorkspace.create(dir, spec as never), ContractError);
       // A Python-style marker is refused by the TS tool
       Deno.writeTextFileSync(
-        `${dir}/.vouch/workspace.json`,
+        `${dir}/.vowdo/workspace.json`,
         JSON.stringify({
           schemaVersion: "1",
           tool: "vouch-agent",

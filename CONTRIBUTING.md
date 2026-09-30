@@ -1,4 +1,4 @@
-# Contributing to Vouch
+# Contributing to Vowdo
 
 Help make agent work easier to inspect, verify and recover. Small,
 reproducible improvements are especially welcome during the developer preview.
@@ -18,7 +18,7 @@ bash scripts/verify-native.sh dist
 ```
 
 One integration test explicitly skips without an independently installed
-Choose runner. Set `VOUCH_TS_TEST_CHOOSE_ROOT` to configure that optional
+Choose runner. Set `VOWDO_TEST_CHOOSE_ROOT` to configure that optional
 runner. The public repository does not ship sibling products. Report exact
 pass/fail/skip counts; skipped coverage is not verified behavior.
 The native CSV journey needs neither that runner nor Python.
@@ -61,4 +61,4 @@ Communicate respectfully, critique ideas rather than people, and keep
 discussions relevant to the project.
 
 For sensitive vulnerabilities use [SECURITY.md](SECURITY.md), not a public
-issue. For service enquiries use contact@dpintelli.com.
+issue.
