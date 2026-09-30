@@ -112,5 +112,4 @@ The historical Python implementation remains at
 See [LICENSE](LICENSE), [third-party notices](THIRD-PARTY-NOTICES.md)
 and [security reporting](SECURITY.md).
 
-First contributor: [JosephDeepIntelli](https://github.com/JosephDeepIntelli).
 See [contributors](CONTRIBUTORS.md).
