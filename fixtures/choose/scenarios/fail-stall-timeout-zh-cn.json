@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "fail-stall-timeout-zh-cn",
+  "workflowId": "W-C8",
+  "journey": "failure",
+  "locale": "zh",
+  "market": "CN",
+  "currency": "CNY",
+  "case": {
+    "purpose": "卡住的旅程"
+  },
+  "behavior": {
+    "mode": "stall",
+    "stallSeconds": 30
+  },
+  "result": {
+    "outcome": "",
+    "banner": "Synthetic: 此场景永不返回 (zh)"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "handoff-compare-reject-to-find-zh-cn",
+  "workflowId": "W-C6",
+  "journey": "handoff",
+  "locale": "zh",
+  "market": "CN",
+  "currency": "CNY",
+  "case": {
+    "handoff": {
+      "from": "compare",
+      "rejected": [
+        "Synthetic Model B"
+      ]
+    },
+    "exclusions": [
+      "Synthetic Model B"
+    ],
+    "purpose": "更安静的选项"
+  },
+  "result": {
+    "outcome": "complete",
+    "conclusion": "Synthetic: 排除 Model B 后，短名单里都是更安静的选项。",
+    "shortlist": [
+      {
+        "identity": "Synthetic Model C",
+        "eligibility": "eligible"
+      },
+      {
+        "identity": "Synthetic Model A",
+        "eligibility": "eligible"
+      }
+    ],
+    "rejected": [
+      {
+        "identity": "Synthetic Model B",
+        "reason": "buyer excluded in Compare (instruction, not examined option)"
+      }
+    ],
+    "exclusionsAreInstructionsNotOptions": true,
+    "sources": [
+      {
+        "sourceId": "src_syn001",
+        "url": "https://example.com/synthetic/model-a",
+        "title": "Synthetic Model A spec page",
+        "excerpt": "The Synthetic Model A weighs 1.2 kg and runs at 62 dB on its quiet setting. It lists for 189 USD with free delivery in the US.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn003",
+        "url": "https://example.com/synthetic/model-c",
+        "title": "Synthetic Model C spec page",
+        "excerpt": "Synthetic Model C weighs 1.1 kg, runs at 58 dB, and costs 249 USD including delivery.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "hx_c_noise",
+        "subjectIds": [
+          "cand_c"
+        ],
+        "value": "58 dB",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn003",
+            "exactText": "runs at 58 dB"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      }
+    ],
+    "banner": "Synthetic 排除继承 (zh)"
+  }
+}

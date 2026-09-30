@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "fail-exhausted-budget-en-us",
+  "workflowId": "W-C8",
+  "journey": "failure",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "purpose": "very broad find with tiny allowances"
+  },
+  "result": {
+    "outcome": "exhausted",
+    "status": "exhausted",
+    "conclusion": "Synthetic: the cumulative allowance ran out; what was checked stays visible and nothing was fabricated.",
+    "banner": "Synthetic: that's as far as I could check this time (en)",
+    "checkedSoFar": [
+      {
+        "identity": "Synthetic Model A",
+        "coverage": "partial"
+      }
+    ],
+    "limitedHonesty": "Some parts are still unconfirmed. This answer didn't use any credits. (synthetic)",
+    "billed": false,
+    "noEndlessResumeLoop": true,
+    "nextActions": [
+      {
+        "kind": "narrow-revision"
+      }
+    ],
+    "sources": [
+      {
+        "sourceId": "src_syn001",
+        "url": "https://example.com/synthetic/model-a",
+        "title": "Synthetic Model A spec page",
+        "excerpt": "The Synthetic Model A weighs 1.2 kg and runs at 62 dB on its quiet setting. It lists for 189 USD with free delivery in the US.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "fe_a_weight",
+        "subjectIds": [
+          "cand_a"
+        ],
+        "value": "1.2 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn001",
+            "exactText": "weighs 1.2 kg"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      }
+    ]
+  }
+}

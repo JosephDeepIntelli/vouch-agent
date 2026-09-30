@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "revision-compare-change-product-en-us",
+  "workflowId": "W-C5",
+  "journey": "revision",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "parentReportDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "change": {
+      "candidates[1]": "Synthetic Model D"
+    },
+    "parent": {
+      "version": 2,
+      "outcome": "complete"
+    }
+  },
+  "result": {
+    "outcome": "complete",
+    "conclusion": "Synthetic: with Model D replacing Model B, the weight row stays decided and the noise row gains an unknown cell.",
+    "whatChanged": [
+      "candidates[1] replaced with Synthetic Model D"
+    ],
+    "carriedItems": [
+      "priority: weight",
+      "market: US",
+      "budget: 300 USD"
+    ],
+    "parentAnswerPreserved": true,
+    "parentVisibleInChat": true,
+    "matrix": [
+      {
+        "rowId": "row_noise",
+        "label": "noise",
+        "cells": [
+          {
+            "candidate": "Synthetic Model A",
+            "assessment": "supported",
+            "verdict": "meets"
+          },
+          {
+            "candidate": "Synthetic Model D",
+            "assessment": "unknown",
+            "verdict": "unknown"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "sourceId": "src_syn001",
+        "url": "https://example.com/synthetic/model-a",
+        "title": "Synthetic Model A spec page",
+        "excerpt": "The Synthetic Model A weighs 1.2 kg and runs at 62 dB on its quiet setting. It lists for 189 USD with free delivery in the US.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn004",
+        "url": "https://example.com/synthetic/model-d",
+        "title": "Synthetic Model D spec page",
+        "excerpt": "Synthetic Model D is a compact variant weighing 0.9 kg; noise is not published. Price is 99 USD.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "rv_a_noise",
+        "subjectIds": [
+          "cand_a"
+        ],
+        "value": "62 dB",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn001",
+            "exactText": "runs at 62 dB"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      }
+    ],
+    "banner": "Synthetic revision linked to parent (en)"
+  }
+}

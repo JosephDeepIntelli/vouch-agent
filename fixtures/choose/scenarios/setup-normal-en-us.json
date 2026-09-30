@@ -1,0 +1,188 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "setup-normal-en-us",
+  "workflowId": "W-C4",
+  "journey": "setup",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "purpose": "coffee corner",
+    "startingFromScratch": true,
+    "budget": {
+      "amount": 700,
+      "currency": "USD",
+      "scope": "whole-set"
+    },
+    "roles": [
+      "grinder",
+      "brewer",
+      "kettle"
+    ]
+  },
+  "result": {
+    "outcome": "complete",
+    "conclusion": "Synthetic: this three-piece coffee corner works together and lands under the 700 USD whole-set budget.",
+    "roles": [
+      {
+        "roleId": "role_grinder",
+        "status": "filled",
+        "selectedItem": "Synthetic Grinder G1",
+        "quantity": 1
+      },
+      {
+        "roleId": "role_brewer",
+        "status": "filled",
+        "selectedItem": "Synthetic Brewer B2",
+        "quantity": 1
+      },
+      {
+        "roleId": "role_kettle",
+        "status": "filled",
+        "selectedItem": "Synthetic Kettle K3",
+        "quantity": 1
+      }
+    ],
+    "connections": [
+      {
+        "connectionId": "conn_gb",
+        "critical": true,
+        "status": "supported",
+        "basis": "sourced",
+        "claimId": "su_conn1"
+      },
+      {
+        "connectionId": "conn_bk",
+        "critical": true,
+        "status": "supported",
+        "basis": "rule"
+      }
+    ],
+    "costSummary": {
+      "knownSubtotal": {
+        "amount": 640,
+        "currency": "USD"
+      },
+      "unknownCosts": [
+        "delivery for the grinder",
+        "sales tax by state"
+      ],
+      "budgetVerdict": "meets",
+      "budgetScope": "whole-set"
+    },
+    "buyingOrder": [
+      {
+        "step": 1,
+        "item": "Synthetic Grinder G1"
+      },
+      {
+        "step": 2,
+        "item": "Synthetic Brewer B2"
+      },
+      {
+        "step": 3,
+        "item": "Synthetic Kettle K3"
+      }
+    ],
+    "optionalExtras": [
+      {
+        "item": "Synthetic Tamper T1",
+        "note": "optional, not in subtotal"
+      }
+    ],
+    "sources": [
+      {
+        "sourceId": "src_syn010",
+        "url": "https://example.com/synthetic/grinder-g1",
+        "title": "Synthetic Grinder G1",
+        "excerpt": "Synthetic Grinder G1 fits 54 mm baskets and brews with the Synthetic Brewer B2 line. It lists for 260 USD.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn011",
+        "url": "https://example.com/synthetic/brewer-b2",
+        "title": "Synthetic Brewer B2",
+        "excerpt": "Synthetic Brewer B2 lists for 240 USD and pairs with the Synthetic Kettle K3 stand.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn012",
+        "url": "https://example.com/synthetic/kettle-k3",
+        "title": "Synthetic Kettle K3",
+        "excerpt": "Synthetic Kettle K3 lists for 140 USD.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "su_conn1",
+        "subjectIds": [
+          "cand_g1"
+        ],
+        "value": "G1 works with B2",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn010",
+            "exactText": "brews with the Synthetic Brewer B2 line"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      },
+      {
+        "claimId": "su_g1_price",
+        "subjectIds": [
+          "cand_g1"
+        ],
+        "value": "260 USD",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn010",
+            "exactText": "lists for 260 USD"
+          }
+        ],
+        "synthetic": true,
+        "requirementId": "budget",
+        "verdict": "meets"
+      },
+      {
+        "claimId": "su_b2_price",
+        "subjectIds": [
+          "cand_b2"
+        ],
+        "value": "240 USD",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn011",
+            "exactText": "lists for 240 USD"
+          }
+        ],
+        "synthetic": true,
+        "requirementId": "budget",
+        "verdict": "meets"
+      },
+      {
+        "claimId": "su_k3_price",
+        "subjectIds": [
+          "cand_k3"
+        ],
+        "value": "140 USD",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn012",
+            "exactText": "lists for 140 USD"
+          }
+        ],
+        "synthetic": true,
+        "requirementId": "budget",
+        "verdict": "meets"
+      }
+    ],
+    "banner": "Synthetic set ready (en)"
+  }
+}

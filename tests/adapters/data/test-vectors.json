@@ -1,0 +1,240 @@
+{
+  "schemaVersion": 1,
+  "description": "Shared cross-language canonical-JSON test vectors for the Vouch adapter protocol. Digest rule: sha256 over the UTF-8 bytes of json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(\",\", \":\")) — the exact form of vouch_agent.contracts.common.digest_of. Accept entries carry the expected canonical text and sha256 hex (no prefix). Entries with expectedRejected=true are outside the shared numeric domain: the TypeScript codec rejects them (fail closed) and the Python mirror skips them. Numeric domain: safe integers ±(2^53-1) spelled as JSON integers, negative zero canonicalized as 0, and finite fractional doubles in CPython repr spelling.",
+  "vectors": [
+    {
+      "name": "chinese-text",
+      "input": {
+        "brand": "迪普智选",
+        "product": "电热水壶",
+        "note": "安静烧水"
+      },
+      "canonical": "{\"brand\":\"迪普智选\",\"note\":\"安静烧水\",\"product\":\"电热水壶\"}",
+      "sha256": "4b9ca9b8b92bbe543ce579f0a08c88a242e2c5e5cbf405a103af24faa23455f9"
+    },
+    {
+      "name": "escaping",
+      "input": {
+        "quote": "She said \"hello\"",
+        "backslash": "C:\\Users\\joy",
+        "newline": "a\nb",
+        "tab": "a\tb",
+        "ctrl": "\u0001",
+        "del": "",
+        "line-sep": "a b c",
+        "solidus": "a/b"
+      },
+      "canonical": "{\"backslash\":\"C:\\\\Users\\\\joy\",\"ctrl\":\"\\u0001\",\"del\":\"\",\"line-sep\":\"a b c\",\"newline\":\"a\\nb\",\"quote\":\"She said \\\"hello\\\"\",\"solidus\":\"a/b\",\"tab\":\"a\\tb\"}",
+      "sha256": "d96b1568fd0b9e2c035cf8011ea976335692a5ff8b5b21e8b5e5313742c4ba06"
+    },
+    {
+      "name": "null-vs-false",
+      "input": {
+        "a": null,
+        "b": false,
+        "c": true,
+        "d": "",
+        "e": 0
+      },
+      "canonical": "{\"a\":null,\"b\":false,\"c\":true,\"d\":\"\",\"e\":0}",
+      "sha256": "52760bba60379cf264487a80dfc29fe29fddbe181e16845d501bd2ef041b33be"
+    },
+    {
+      "name": "zero-int",
+      "input": 0,
+      "canonical": "0",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "name": "negative-zero-int",
+      "input": 0,
+      "canonical": "0",
+      "sha256": "5feceb66ffc86f38d952786c6d696c79c2dbc239dd4e91b46729d73a27fb57e9"
+    },
+    {
+      "name": "safe-int-max",
+      "input": 9007199254740991,
+      "canonical": "9007199254740991",
+      "sha256": "f40b423c2dd95ff2b2f027e22208f438cf7242862e5e746860e697308c9add26"
+    },
+    {
+      "name": "safe-int-negative",
+      "input": -9007199254740991,
+      "canonical": "-9007199254740991",
+      "sha256": "4c933a456bb8f2e9894b2d0b26480439cd72d52fb8a27cbf8fd7f323f22c7815"
+    },
+    {
+      "name": "fraction-halves",
+      "input": 0.5,
+      "canonical": "0.5",
+      "sha256": "d2cbad71ff333de67d07ec676e352ab7f38248eb69c942950157220607c55e84"
+    },
+    {
+      "name": "fraction-negative",
+      "input": -2.25,
+      "canonical": "-2.25",
+      "sha256": "805fc768f9b682818a37b950815f89359472a0b342a0bb23291b87ac43e73103"
+    },
+    {
+      "name": "float-noise",
+      "input": 0.30000000000000004,
+      "canonical": "0.30000000000000004",
+      "sha256": "06bad31060c1212ae832de4c031f7b31e3b48aed57858294478cb19450cf34ca"
+    },
+    {
+      "name": "exponent-negative",
+      "input": 1e-07,
+      "canonical": "1e-07",
+      "sha256": "e485fac25775a7da830698e7daac582737fc8b43ba4b351467a16cf8ed83122a"
+    },
+    {
+      "name": "exponent-mantissa",
+      "input": 1.25e-07,
+      "canonical": "1.25e-07",
+      "sha256": "87b2c7b7ed58253475e96375c259e8ef7ec831f119889c43ec74666db98ec3ff"
+    },
+    {
+      "name": "decimal-boundary",
+      "input": 0.0001,
+      "canonical": "0.0001",
+      "sha256": "e539aebac7fd2ed8aba8854fedeaa65436962f8ee1c82341b394698f085b6496"
+    },
+    {
+      "name": "exponent-boundary",
+      "input": 1e-05,
+      "canonical": "1e-05",
+      "sha256": "5a9530d3c6d5faad6ba8afe16fb8e438df23865128370b2ec14ef622bb5f2ec9"
+    },
+    {
+      "name": "long-fraction",
+      "input": 1234567890123456.8,
+      "canonical": "1234567890123456.8",
+      "sha256": "d398b229646051d1b7f705bfb8b5e2c063ae7df46628e67632c1814f77f75d80"
+    },
+    {
+      "name": "min-subnormal",
+      "input": 5e-324,
+      "canonical": "5e-324",
+      "sha256": "c46e7ca1be4c8734f373a56530787288fa2058d73d07855e9247e949f811a42a"
+    },
+    {
+      "name": "non-bmp",
+      "input": {
+        "alchemical": "🜂",
+        "egyptian": "𓀀"
+      },
+      "canonical": "{\"alchemical\":\"🜂\",\"egyptian\":\"𓀀\"}",
+      "sha256": "d4b6241ff5edc1261b7347d82ede5ecff602c82408358dd385999a9d58e0f144"
+    },
+    {
+      "name": "empty-containers",
+      "input": {
+        "a": [],
+        "b": {},
+        "c": null
+      },
+      "canonical": "{\"a\":[],\"b\":{},\"c\":null}",
+      "sha256": "660b9c1d88eed9de2681b8c96dc6c57c31cece63361ec954f7c99c21a1e05979"
+    },
+    {
+      "name": "nested-sorting",
+      "input": {
+        "z": 1,
+        "a": {
+          "y": [
+            true,
+            null
+          ],
+          "b": "迪普智选"
+        },
+        "0": 2,
+        "A": 3
+      },
+      "canonical": "{\"0\":2,\"A\":3,\"a\":{\"b\":\"迪普智选\",\"y\":[true,null]},\"z\":1}",
+      "sha256": "75cd9b7f3d3d9978e1089017f2c7571b77fc738de55b83e362e73bc9c8332e7e"
+    },
+    {
+      "name": "chinese-keys",
+      "input": {
+        "中": 1,
+        "文": 2,
+        "字典": {
+          "贵": 0.5,
+          "便宜": -1
+        }
+      },
+      "canonical": "{\"中\":1,\"字典\":{\"便宜\":-1,\"贵\":0.5},\"文\":2}",
+      "sha256": "40b36aafb72d2a4a8ba12e3d7d6b39208f98bce4b9dfb6d320154b1c5183f5ee"
+    },
+    {
+      "name": "compare-decision-input",
+      "input": {
+        "version": 2,
+        "locale": "zh",
+        "task": "compare",
+        "goal": "",
+        "context": {
+          "market": "CN",
+          "currency": "CNY"
+        },
+        "budget": {
+          "maximum": {
+            "currency": "CNY",
+            "amountMinor": 200000
+          },
+          "scope": "option-total"
+        },
+        "requirements": [
+          {
+            "id": "req_hard000001",
+            "text": "支持 VESA 壁挂",
+            "kind": "hard"
+          },
+          {
+            "id": "req_pref000001",
+            "text": "安静运行",
+            "kind": "preference",
+            "priority": 1
+          }
+        ],
+        "decidingPriorityIds": [
+          "req_pref000001"
+        ],
+        "candidates": [
+          {
+            "raw": "显示器甲"
+          },
+          {
+            "raw": "显示器乙"
+          }
+        ]
+      },
+      "canonical": "{\"budget\":{\"maximum\":{\"amountMinor\":200000,\"currency\":\"CNY\"},\"scope\":\"option-total\"},\"candidates\":[{\"raw\":\"显示器甲\"},{\"raw\":\"显示器乙\"}],\"context\":{\"currency\":\"CNY\",\"market\":\"CN\"},\"decidingPriorityIds\":[\"req_pref000001\"],\"goal\":\"\",\"locale\":\"zh\",\"requirements\":[{\"id\":\"req_hard000001\",\"kind\":\"hard\",\"text\":\"支持 VESA 壁挂\"},{\"id\":\"req_pref000001\",\"kind\":\"preference\",\"priority\":1,\"text\":\"安静运行\"}],\"task\":\"compare\",\"version\":2}",
+      "sha256": "a7d01d2bbc9e30e0c562ebf8f5d441d01d210f6d15d45d202a02d82e0ea59584"
+    },
+    {
+      "name": "unsafe-int-above",
+      "input": 9007199254740993,
+      "expectedRejected": true,
+      "reason": "rounds to a different double in ECMAScript; no shared spelling"
+    },
+    {
+      "name": "integral-double-beyond-safe",
+      "input": 1e+16,
+      "expectedRejected": true,
+      "reason": "Python spells the int 10000000000000000 and the float 1e+16 differently; ECMAScript cannot distinguish them"
+    },
+    {
+      "name": "integral-double-huge",
+      "input": 1e+21,
+      "expectedRejected": true,
+      "reason": "beyond the safe-integer domain; Python float spells 1e+21, Python int would spell 1000000000000000000000"
+    },
+    {
+      "name": "max-float",
+      "input": 1.7976931348623157e+308,
+      "expectedRejected": true,
+      "reason": "an integral double beyond the safe range: Python spells the parsed float 1.7976931348623157e+308 but a digit-spelled integer of the same value as an int; ECMAScript sees one Number for both texts, so no shared canonical spelling exists"
+    }
+  ]
+}

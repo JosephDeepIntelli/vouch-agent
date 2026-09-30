@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "revision-failed-preserves-parent-zh-cn",
+  "workflowId": "W-C5",
+  "journey": "revision",
+  "locale": "zh",
+  "market": "CN",
+  "currency": "CNY",
+  "case": {
+    "parent": {
+      "version": 2,
+      "outcome": "complete",
+      "reportDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "change": {
+      "candidates[0]": ""
+    }
+  },
+  "behavior": {
+    "mode": "fail",
+    "code": "choose/revision-failed"
+  },
+  "result": {
+    "outcome": "",
+    "revisionFailedNotice": "Synthetic: 这次修改没能完成，上一版答案保持不变。(zh)",
+    "parentAnswerPreserved": true,
+    "parentVersion": 2,
+    "parentOutcome": "complete",
+    "sources": [],
+    "claims": [],
+    "banner": "Synthetic 修订失败但保留原答案 (zh)"
+  }
+}

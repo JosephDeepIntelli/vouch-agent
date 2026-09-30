@@ -1,0 +1,222 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "compare-normal-zh-cn",
+  "workflowId": "W-C3",
+  "journey": "compare",
+  "locale": "zh",
+  "market": "CN",
+  "currency": "CNY",
+  "case": {
+    "candidates": [
+      "Synthetic Model A",
+      "Synthetic Model B",
+      "Synthetic Model C",
+      "Synthetic Model D"
+    ],
+    "priority": "噪音"
+  },
+  "result": {
+    "outcome": "complete",
+    "conclusion": "Synthetic: 如果最看重噪音，Model C 最安静；预算有限则 Model A 兼顾噪音与价格。",
+    "candidatesEchoed": [
+      "Synthetic Model A",
+      "Synthetic Model B",
+      "Synthetic Model C",
+      "Synthetic Model D"
+    ],
+    "matrix": [
+      {
+        "rowId": "row_noise",
+        "label": "噪音",
+        "cells": [
+          {
+            "candidate": "Synthetic Model A",
+            "assessment": "supported",
+            "verdict": "meets",
+            "claimId": "cm_a_noise"
+          },
+          {
+            "candidate": "Synthetic Model B",
+            "assessment": "supported",
+            "verdict": "fails",
+            "claimId": "cm_b_noise"
+          },
+          {
+            "candidate": "Synthetic Model C",
+            "assessment": "supported",
+            "verdict": "meets",
+            "claimId": "cm_c_noise"
+          },
+          {
+            "candidate": "Synthetic Model D",
+            "assessment": "unknown",
+            "verdict": "unknown"
+          }
+        ]
+      },
+      {
+        "rowId": "row_weight",
+        "label": "重量",
+        "cells": [
+          {
+            "candidate": "Synthetic Model A",
+            "assessment": "supported",
+            "verdict": "meets",
+            "claimId": "cm_a_weight"
+          },
+          {
+            "candidate": "Synthetic Model B",
+            "assessment": "supported",
+            "verdict": "unknown"
+          },
+          {
+            "candidate": "Synthetic Model C",
+            "assessment": "supported",
+            "verdict": "meets",
+            "claimId": "cm_c_weight"
+          },
+          {
+            "candidate": "Synthetic Model D",
+            "assessment": "supported",
+            "verdict": "meets",
+            "claimId": "cm_d_weight"
+          }
+        ]
+      }
+    ],
+    "differenceSummary": "Synthetic: 主要差别在噪音与重量；Model D 噪音未公布。",
+    "missingInfoExpressed": [
+      "Model D 噪音未公布"
+    ],
+    "sources": [
+      {
+        "sourceId": "src_syn001",
+        "url": "https://example.com/synthetic/model-a",
+        "title": "Synthetic Model A spec page",
+        "excerpt": "The Synthetic Model A weighs 1.2 kg and runs at 62 dB on its quiet setting. It lists for 189 USD with free delivery in the US.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn002",
+        "url": "https://example.com/synthetic/model-b",
+        "title": "Synthetic Model B spec page",
+        "excerpt": "Synthetic Model B weighs 2.4 kg and runs at 76 dB. The listed price is 129 USD; delivery is 15 USD.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn003",
+        "url": "https://example.com/synthetic/model-c",
+        "title": "Synthetic Model C spec page",
+        "excerpt": "Synthetic Model C weighs 1.1 kg, runs at 58 dB, and costs 249 USD including delivery.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn004",
+        "url": "https://example.com/synthetic/model-d",
+        "title": "Synthetic Model D spec page",
+        "excerpt": "Synthetic Model D is a compact variant weighing 0.9 kg; noise is not published. Price is 99 USD.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "cm_a_noise",
+        "subjectIds": [
+          "cand_a"
+        ],
+        "value": "62 dB",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn001",
+            "exactText": "runs at 62 dB"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      },
+      {
+        "claimId": "cm_b_noise",
+        "subjectIds": [
+          "cand_b"
+        ],
+        "value": "76 dB",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn002",
+            "exactText": "runs at 76 dB"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "fails"
+      },
+      {
+        "claimId": "cm_c_noise",
+        "subjectIds": [
+          "cand_c"
+        ],
+        "value": "58 dB",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn003",
+            "exactText": "runs at 58 dB"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      },
+      {
+        "claimId": "cm_a_weight",
+        "subjectIds": [
+          "cand_a"
+        ],
+        "value": "1.2 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn001",
+            "exactText": "weighs 1.2 kg"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      },
+      {
+        "claimId": "cm_c_weight",
+        "subjectIds": [
+          "cand_c"
+        ],
+        "value": "1.1 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn003",
+            "exactText": "weighs 1.1 kg"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      },
+      {
+        "claimId": "cm_d_weight",
+        "subjectIds": [
+          "cand_d"
+        ],
+        "value": "0.9 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn004",
+            "exactText": "weighing 0.9 kg"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      }
+    ],
+    "banner": "Synthetic 比较完成 (zh, CN market)"
+  }
+}

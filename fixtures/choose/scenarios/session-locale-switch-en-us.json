@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "session-locale-switch-en-us",
+  "workflowId": "W-C7",
+  "journey": "session",
+  "locale": "en",
+  "market": "CN",
+  "currency": "CNY",
+  "case": {
+    "task": "compare",
+    "draft": {
+      "candidates": [
+        "Synthetic Model A",
+        "Synthetic Model C"
+      ],
+      "market": "CN"
+    }
+  },
+  "steps": {
+    "save": {
+      "outcome": "complete",
+      "status": "completed",
+      "saved": true,
+      "reportLanguage": "en",
+      "banner": "Synthetic report saved in English"
+    },
+    "reopen-locale-switched": {
+      "outcome": "complete",
+      "status": "completed",
+      "reopened": true,
+      "uiLocaleSwitchedTo": "zh",
+      "reportLanguagePreserved": "en",
+      "localizedControls": true,
+      "draftRestored": {
+        "candidates": [
+          "Synthetic Model A",
+          "Synthetic Model C"
+        ],
+        "market": "CN"
+      },
+      "banner": "Synthetic UI now zh; report stays en"
+    }
+  }
+}

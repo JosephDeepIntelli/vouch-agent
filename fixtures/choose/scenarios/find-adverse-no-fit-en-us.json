@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "find-adverse-no-fit-en-us",
+  "workflowId": "W-C2",
+  "journey": "find",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "purpose": "sub-1 kg vacuum",
+    "budget": {
+      "amount": 300,
+      "currency": "USD"
+    },
+    "mustHaves": [
+      {
+        "id": "h1",
+        "text": "under 1 kg"
+      }
+    ]
+  },
+  "result": {
+    "outcome": "no_fit",
+    "conclusion": "Synthetic: of the options checked, none is confirmed under 1 kg; this is not a claim that none exists anywhere.",
+    "shortlist": [],
+    "rejected": [
+      {
+        "identity": "Synthetic Model A",
+        "reason": "weighs 1.2 kg, fails h1",
+        "claimIds": [
+          "claim_a_weight_adv"
+        ]
+      },
+      {
+        "identity": "Synthetic Model B",
+        "reason": "weighs 2.4 kg, fails h1",
+        "claimIds": [
+          "claim_b_weight_adv"
+        ]
+      },
+      {
+        "identity": "Synthetic Model C",
+        "reason": "weighs 1.1 kg, fails h1",
+        "claimIds": [
+          "claim_c_weight_adv"
+        ]
+      }
+    ],
+    "boundedWording": true,
+    "nextActions": [
+      {
+        "kind": "add-candidate"
+      },
+      {
+        "kind": "edit-context"
+      }
+    ],
+    "sources": [
+      {
+        "sourceId": "src_syn001",
+        "url": "https://example.com/synthetic/model-a",
+        "title": "Synthetic Model A spec page",
+        "excerpt": "The Synthetic Model A weighs 1.2 kg and runs at 62 dB on its quiet setting. It lists for 189 USD with free delivery in the US.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn002",
+        "url": "https://example.com/synthetic/model-b",
+        "title": "Synthetic Model B spec page",
+        "excerpt": "Synthetic Model B weighs 2.4 kg and runs at 76 dB. The listed price is 129 USD; delivery is 15 USD.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn003",
+        "url": "https://example.com/synthetic/model-c",
+        "title": "Synthetic Model C spec page",
+        "excerpt": "Synthetic Model C weighs 1.1 kg, runs at 58 dB, and costs 249 USD including delivery.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "claim_a_weight_adv",
+        "subjectIds": [
+          "cand_a"
+        ],
+        "value": "1.2 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn001",
+            "exactText": "weighs 1.2 kg"
+          }
+        ],
+        "synthetic": true,
+        "requirementId": "h1",
+        "verdict": "fails"
+      },
+      {
+        "claimId": "claim_b_weight_adv",
+        "subjectIds": [
+          "cand_b"
+        ],
+        "value": "2.4 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn002",
+            "exactText": "weighs 2.4 kg"
+          }
+        ],
+        "synthetic": true,
+        "requirementId": "h1",
+        "verdict": "fails"
+      },
+      {
+        "claimId": "claim_c_weight_adv",
+        "subjectIds": [
+          "cand_c"
+        ],
+        "value": "1.1 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn003",
+            "exactText": "weighs 1.1 kg"
+          }
+        ],
+        "synthetic": true,
+        "requirementId": "h1",
+        "verdict": "fails"
+      }
+    ],
+    "banner": "Synthetic no-fit with per-option reasons (en)"
+  }
+}

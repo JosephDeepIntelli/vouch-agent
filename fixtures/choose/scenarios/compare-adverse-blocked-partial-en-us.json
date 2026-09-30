@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "compare-adverse-blocked-partial-en-us",
+  "workflowId": "W-C3",
+  "journey": "compare",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "candidates": [
+      "Synthetic Model A",
+      "Synthetic Model B",
+      "Synthetic Model C"
+    ],
+    "priority": "weight"
+  },
+  "result": {
+    "outcome": "partial",
+    "conclusion": "Synthetic: Model A and Model C compare cleanly; Model B's page could not be reached, so its column stays unknown.",
+    "candidatesEchoed": [
+      "Synthetic Model A",
+      "Synthetic Model B",
+      "Synthetic Model C"
+    ],
+    "placeholderCandidate": {
+      "identity": "Synthetic Model B",
+      "reason": "source blocked/unreachable",
+      "cells": "all-unknown"
+    },
+    "noSubstitutionOrDrop": true,
+    "coverageNote": "Model B required coverage unresolved; outcome partial, not complete.",
+    "sources": [
+      {
+        "sourceId": "src_syn001",
+        "url": "https://example.com/synthetic/model-a",
+        "title": "Synthetic Model A spec page",
+        "excerpt": "The Synthetic Model A weighs 1.2 kg and runs at 62 dB on its quiet setting. It lists for 189 USD with free delivery in the US.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn003",
+        "url": "https://example.com/synthetic/model-c",
+        "title": "Synthetic Model C spec page",
+        "excerpt": "Synthetic Model C weighs 1.1 kg, runs at 58 dB, and costs 249 USD including delivery.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "cp_a_weight",
+        "subjectIds": [
+          "cand_a"
+        ],
+        "value": "1.2 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn001",
+            "exactText": "weighs 1.2 kg"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      },
+      {
+        "claimId": "cp_c_weight",
+        "subjectIds": [
+          "cand_c"
+        ],
+        "value": "1.1 kg",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn003",
+            "exactText": "weighs 1.1 kg"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "meets"
+      }
+    ],
+    "banner": "Synthetic partial comparison (en)"
+  }
+}

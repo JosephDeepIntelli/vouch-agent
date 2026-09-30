@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "fail-cancel-en-us",
+  "workflowId": "W-C8",
+  "journey": "failure",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "purpose": "buyer presses stop mid-run"
+  },
+  "behavior": {
+    "mode": "fail",
+    "code": "choose/cancelled"
+  },
+  "result": {
+    "outcome": "",
+    "status": "paused",
+    "pauseReason": "stopped",
+    "partialSaved": true,
+    "holdReleased": true,
+    "billed": false,
+    "banner": "Synthetic: stopped before anything came back (en)",
+    "sources": [],
+    "claims": []
+  }
+}

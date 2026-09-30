@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "guard-credit-hold-release-en-us",
+  "workflowId": "W-C9",
+  "journey": "guardrail",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "simulate": "failing run after a quoted credit hold"
+  },
+  "result": {
+    "outcome": "hold-released",
+    "holdReleased": true,
+    "billed": false,
+    "ledgerVisible": [
+      {
+        "kind": "hold",
+        "amount": 10
+      },
+      {
+        "kind": "release",
+        "amount": 10
+      }
+    ],
+    "idempotencyKeyPreserved": true,
+    "banner": "Synthetic: failing work releases its credit hold (en)",
+    "sources": [],
+    "claims": []
+  }
+}

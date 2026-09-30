@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.uv-cache/
+dist/
+build/
+
+# Tooling caches
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+test-results/
+playwright-report/
+
+# Local project data — task packs, traces, artifacts and exports never enter git
+data/
+# the shared cross-language digest vectors live in-repo on purpose
+!tests/adapters/data/
+*.vouch/
+.vouch/
+work/
+samples/
+reports/
+exports/
+artifacts/
+raw-traces/
+release-candidates/
+superseded/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Env — key-only examples only, never values
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+credentials.json
+
+# Local agent/coordination files; public docs use an explicit list.
+.claude/
+.codex/
+.agents/
+.agent/
+worktrees/
+coordination/
+/AGENTS.md
+/CLAUDE.md
+/docs/*
+!/docs/quickstart.md
+!/docs/architecture.md
+!/docs/adapter-protocol-v1.1.md
+
+# Editor/OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~

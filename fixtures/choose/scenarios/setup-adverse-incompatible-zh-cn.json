@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "setup-adverse-incompatible-zh-cn",
+  "workflowId": "W-C4",
+  "journey": "setup",
+  "locale": "zh",
+  "market": "CN",
+  "currency": "CNY",
+  "case": {
+    "purpose": "桌面咖啡角",
+    "ownedItems": [
+      "Synthetic Brewer B2 (已购)"
+    ],
+    "roles": [
+      "grinder",
+      "kettle"
+    ],
+    "budget": {
+      "amount": 900,
+      "currency": "CNY",
+      "scope": "whole-set"
+    }
+  },
+  "result": {
+    "outcome": "no_fit",
+    "conclusion": "Synthetic: 已检查的组合里，G1 磨豆机与已购 B2 冲煮器的一个关键连接不兼容（有来源），需要换一件。",
+    "failingConnection": {
+      "connectionId": "conn_owned_b2_g9",
+      "critical": true,
+      "status": "fails",
+      "basis": "sourced",
+      "claimId": "su_adv_conn",
+      "reason": "G9 需要 58 mm 篮，B2 只支持 54 mm"
+    },
+    "affectedItems": [
+      "Synthetic Grinder G9",
+      "Synthetic Brewer B2 (已购)"
+    ],
+    "swapOffered": {
+      "replaceRole": "grinder",
+      "suggestion": "Synthetic Grinder G1"
+    },
+    "roles": [
+      {
+        "roleId": "role_kettle",
+        "status": "filled",
+        "selectedItem": "Synthetic Kettle K3",
+        "quantity": 1
+      }
+    ],
+    "costSummary": {
+      "knownSubtotal": {
+        "amount": 140,
+        "currency": "USD"
+      },
+      "unknownCosts": [
+        "运费"
+      ],
+      "budgetVerdict": "unknown",
+      "budgetScope": "whole-set"
+    },
+    "sources": [
+      {
+        "sourceId": "src_syn013",
+        "url": "https://example.com/synthetic/grinder-g9",
+        "title": "Synthetic Grinder G9",
+        "excerpt": "Synthetic Grinder G9 requires 58 mm baskets; it does not fit the Synthetic Brewer B2 line.",
+        "synthetic": true
+      },
+      {
+        "sourceId": "src_syn012",
+        "url": "https://example.com/synthetic/kettle-k3",
+        "title": "Synthetic Kettle K3",
+        "excerpt": "Synthetic Kettle K3 lists for 140 USD.",
+        "synthetic": true
+      }
+    ],
+    "claims": [
+      {
+        "claimId": "su_adv_conn",
+        "subjectIds": [
+          "cand_g9"
+        ],
+        "value": "G9 与 B2 不兼容",
+        "assessment": "supported",
+        "citationSpans": [
+          {
+            "sourceId": "src_syn013",
+            "exactText": "does not fit the Synthetic Brewer B2 line"
+          }
+        ],
+        "synthetic": true,
+        "verdict": "fails"
+      }
+    ],
+    "banner": "Synthetic 不兼容提示 (zh)"
+  }
+}

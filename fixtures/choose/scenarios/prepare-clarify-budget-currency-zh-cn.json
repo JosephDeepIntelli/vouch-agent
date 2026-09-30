@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "prepare-clarify-budget-currency-zh-cn",
+  "workflowId": "W-C1",
+  "journey": "prepare",
+  "locale": "zh",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "freeText": "预算 500 以内的耳机",
+    "market": "US",
+    "budget": {
+      "amount": 500,
+      "currency": null
+    }
+  },
+  "result": {
+    "outcome": "clarifying",
+    "task": "find",
+    "clarification": {
+      "kind": "missing-detail",
+      "fieldId": "budget-currency",
+      "nonSkippable": true,
+      "choices": [
+        "USD",
+        "CNY",
+        "remove budget"
+      ],
+      "prompt": "Synthetic: which currency is the 500 budget in? (zh)"
+    },
+    "ambiguousBudget": {
+      "amount": 500,
+      "currency": null
+    },
+    "paidResearchTriggered": false,
+    "draftRecovered": false,
+    "banner": "Synthetic preparation asking currency (zh)"
+  }
+}

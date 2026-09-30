@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "prepare-market-gate-en-us",
+  "workflowId": "W-C1",
+  "journey": "prepare",
+  "locale": "en",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "freeText": "gift for a tea drinker",
+    "market": null
+  },
+  "result": {
+    "outcome": "clarifying",
+    "task": "find",
+    "clarification": {
+      "kind": "missing-detail",
+      "fieldId": "market",
+      "nonSkippable": true,
+      "choices": [
+        "US",
+        "CN"
+      ],
+      "prompt": "Synthetic: where will you buy? (en)"
+    },
+    "marketInferredFromLocaleOrIp": false,
+    "paidResearchTriggered": false,
+    "draftRecovered": false,
+    "banner": "Synthetic market gate (en)"
+  }
+}

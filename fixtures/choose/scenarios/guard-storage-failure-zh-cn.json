@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "1",
+  "synthetic": true,
+  "scenarioId": "guard-storage-failure-zh-cn",
+  "workflowId": "W-C9",
+  "journey": "guardrail",
+  "locale": "zh",
+  "market": "US",
+  "currency": "USD",
+  "case": {
+    "simulate": "browser storage write failure during save"
+  },
+  "result": {
+    "outcome": "storage-failure-visible",
+    "storageFailedFlagRaised": true,
+    "banner": "Synthetic: 保存未完成，你可以先导出这段对话。(zh)",
+    "draftExportable": true,
+    "noSilentLoss": true,
+    "startBlockedWhilePendingAccessUnsavable": true,
+    "sources": [],
+    "claims": []
+  }
+}
