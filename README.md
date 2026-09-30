@@ -1,6 +1,14 @@
+<p align="center">
+  <img src="assets/mascot.png" width="200" alt="DeepIntelli’s jade-green rooster mascot holding an evidence notebook">
+</p>
+
 # Vouch Agent
 
 **Work you can inspect. Results you can verify.**
+
+[Website — coming soon](https://vowdo.dpintelli.com) ·
+[Download preview](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.1.0rc1) ·
+[Contribute](CONTRIBUTING.md)
 
 Vouch is DeepIntelli’s local-first project for business task execution and
 controlled agent improvement. We are building toward a simple promise:
@@ -21,11 +29,17 @@ The next native runtime targets **TypeScript on Deno**. The current
 0.1.0rc1 downloads and quickstart remain Python-based until that replacement
 is implemented and verified.
 
-[Download preview](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.1.0rc1) ·
 [Quickstart](docs/quickstart.md) · [Architecture](docs/architecture.md) ·
-[Contribute](CONTRIBUTING.md)
+[Adapter protocol](docs/adapter-protocol-v1.1.md) · [Security](SECURITY.md)
 
 ## Why Vouch?
+
+<p align="center">
+  <img src="assets/evidence-workflow.webp" width="800" alt="Concept illustration of a team defining a task, inspecting evidence, and evaluating a result">
+</p>
+
+*Our direction: define the task, inspect the evidence, evaluate the result.
+Concept artwork; not a product screenshot or a claim of measured performance.*
 
 An answer is only part of a completed task. You also need to know which
 inputs produced it, what was checked, and whether it survived an interrupted
