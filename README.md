@@ -12,6 +12,10 @@ byte-for-byte. It runs locally without an account, API key or model call.
 The broader runtime is available for experimentation; live AI execution
 and measured agent-improvement gains are not supported claims in this release.
 
+The next native runtime targets **TypeScript on Deno**. The current
+0.1.0rc1 downloads and quickstart remain Python-based until that replacement
+is implemented and verified.
+
 [Download preview](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.1.0rc1) ·
 [Quickstart](docs/quickstart.md) · [Architecture](docs/architecture.md) ·
 [Contribute](CONTRIBUTING.md)
@@ -122,3 +126,6 @@ implements its own control and evidence boundaries. See
 Report sensitive vulnerabilities through [SECURITY.md](SECURITY.md).
 
 Built by **DeepIntelli**. For pilot enquiries: [contact@dpintelli.com](mailto:contact@dpintelli.com).
+
+First contributor: [JosephDeepIntelli](https://github.com/JosephDeepIntelli).
+See [contributors](CONTRIBUTORS.md).

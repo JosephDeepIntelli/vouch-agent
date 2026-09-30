@@ -4,6 +4,11 @@ Vouch separates task execution from the decisions that determine whether its
 results can be accepted. The supported CSV workflow is deterministic; the
 general agent and improvement paths remain experiments.
 
+The product runtime target is TypeScript on Deno. The published 0.1.0rc1
+implementation is Python-based and remains the reference until the native
+replacement is verified. Current setup instructions describe that published
+implementation, rather than requiring an unimplemented TypeScript build.
+
 ## Supported task path
 
 ```text
