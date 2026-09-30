@@ -7,7 +7,7 @@
 **Work you can inspect. Results you can verify.**
 
 [Website — coming soon](https://vowdo.dpintelli.com) ·
-[Download preview](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.1.0rc1) ·
+[Download preview](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.2.0rc4) ·
 [Contribute](CONTRIBUTING.md)
 
 Vouch is DeepIntelli’s local-first project for business task execution and
@@ -19,15 +19,16 @@ sound judgment joined with keeping one’s word. Its Chinese product promise,
 有据可依，值得托付, reads as *grounded in evidence, worthy of your trust*.
 The English name remains Vouch / DeepIntelli Vouch.
 
-The **0.1.0rc1 developer preview** starts with a concrete workflow: compare
-two CSV files, inspect what changed, and export a result you can verify
-byte-for-byte. It runs locally without an account, API key or model call.
-The broader runtime is available for experimentation; live AI execution
-and measured agent-improvement gains are not supported claims in this release.
+The **0.2.0rc4 native preview** is built with **TypeScript on Deno**.
+Download the Linux x64 binaries and run them locally: no Python, account,
+API key or model call is needed for the supported CSV workflow. Compare
+two files, inspect what changed, and export a result you can verify
+byte-for-byte.
 
-The next native runtime targets **TypeScript on Deno**. The current
-0.1.0rc1 downloads and quickstart remain Python-based until that replacement
-is implemented and verified.
+Scripted task execution, recovery, budgets and improvement fixtures are
+available for experimentation. Live model execution, applied-runner-config
+receipt validation and measured agent-improvement gains are not supported
+claims in this release.
 
 [Quickstart](docs/quickstart.md) · [Architecture](docs/architecture.md) ·
 [Adapter protocol](docs/adapter-protocol-v1.1.md) · [Security](SECURITY.md)
@@ -52,44 +53,42 @@ into one local workflow.
   differences and duplicate keys are reported explicitly.
 - **A useful starting point:** run the supported CSV journey without
   a sibling repository, cloud account or paid provider.
-- **An inspectable foundation:** Python source, tests, synthetic fixtures and
+- **An inspectable foundation:** TypeScript source, tests, synthetic fixtures and
   public adapter contracts are available under Apache-2.0.
 
 Digest verification checks integrity against the manifest. It does not prove
 that an input is true, authenticate its author or replace business review.
 
-## Try it from source
+## Try the native preview
 
-Tested on **Linux with Python 3.12 and 3.13**. Python 3.14 is not supported;
-Windows and macOS have not been verified. Install [uv](https://docs.astral.sh/uv/getting-started/installation/),
-then run these commands from your checkout:
+Download `vouch-agent-0.2.0rc4-linux-x64.tar.gz` and `SHA256SUMS` from the
+[release page](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.2.0rc4).
+Verify the download, then extract it:
 
 ```sh
-uv sync --locked --no-dev --python 3.13
-uv run --no-sync vouch version
-uv run --no-sync vouch examples --out samples
-uv run --no-sync vouch init --task-only --project work --purpose "supplier sync"
-uv run --no-sync vouch reconcile --project work \
+sha256sum --ignore-missing -c SHA256SUMS
+tar -xzf vouch-agent-0.2.0rc4-linux-x64.tar.gz
+cd vouch-agent-0.2.0rc4-linux-x64
+./bin/vouch version
+./bin/vouch examples --out samples
+./bin/vouch init --task-only --project work --purpose "supplier sync"
+./bin/vouch reconcile --project work \
   --left "samples/产品 目录.csv" --right "samples/supplier feed.csv" --join-key sku
-uv run --no-sync vouch runs --project work
+./bin/vouch runs --project work
 ```
 
-The samples are **synthetic**. They include a changed price, a row missing
-from each side, a duplicate key and a column difference. Use the run ID
-printed by `reconcile` in the following commands:
+The samples are **synthetic**. Use the run ID printed by `reconcile`:
 
 ```sh
-uv run --no-sync vouch run-status --project work RUN_ID
-uv run --no-sync vouch export-run --project work RUN_ID --out work/export
-uv run --no-sync vouch verify-export work/export
+./bin/vouch run-status --project work RUN_ID
+./bin/vouch export-run --project work RUN_ID --out work/export
+./bin/vouch verify-export work/export
 ```
 
-For your own data, substitute your file paths and join key. CSV inputs stay
-local; comparing files does not contact a model provider. Installing
-dependencies requires network access or a populated package cache.
-See the [wheel quickstart](docs/quickstart.md) for installation outside a
-source checkout. The [GitHub preview release](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.1.0rc1)
-includes installation artifacts and checksums. No PyPI publication is claimed.
+Keep `vouch` and `vouch-worker` together in `bin/`. This preview is verified
+on **Linux x64**; Windows, macOS, ARM and broader Linux compatibility are
+not verified. See the [quickstart](docs/quickstart.md) for permissions,
+building from source and the previous Python release.
 
 ## What works today
 
@@ -98,7 +97,9 @@ includes installation artifacts and checksums. No PyPI publication is claimed.
 | Task-only initialization and local CSV reconciliation | Supported |
 | Saved-run inspection and native export verification | Supported |
 | Recovery inspection and existing task controls | See the quickstart; short tasks may finish before a control request |
-| TUI, JAZ/fixed-fact demonstrations, controlled-improvement experiments | Experimental |
+| Scripted worker execution, recovery and budget controls | Fixture mode; no live model calls |
+| Controlled-improvement experiments | Fixture protocol/lifecycle only; no proven model gains |
+| TUI | Deferred |
 | Choose adapter experiments and loopback provider simulations | Experimental; external runner prerequisites apply |
 | Live model execution, autonomous business operations, cloud accounts and payments | Deferred |
 
@@ -132,17 +133,15 @@ they do not add restrictions to the Apache-2.0 core.
 
 ## Project structure
 
-```text
-src/vouch_agent/   CLI, runtime, contracts, storage, adapters and TUI
-tests/            Logic, lifecycle, failure-path and interaction tests
-fixtures/         Explicitly synthetic adapter examples
-docs/             Public quickstart, architecture and adapter protocol
-```
+- `typescript/src/`: contracts, orchestration, durable state, adapters and CLI.
+- `typescript/tests/`: behavioral tests, adversarial cases and synthetic fixtures.
+- `typescript/licenses/`: embedded runtime attribution.
+- `docs/`: quickstart, architecture and adapter protocol.
 
-Vouch uses the pinned [JAZ](https://github.com/jaz-lang/jaz) runtime and
-implements its own control and evidence boundaries. See
-[third-party notes](THIRD-PARTY-NOTICES.md) and the [Apache-2.0 license](LICENSE).
-Report sensitive vulnerabilities through [SECURITY.md](SECURITY.md).
+The historical Python implementation remains at
+[`v0.1.0rc1`](https://github.com/JosephDeepIntelli/vouch-agent/tree/v0.1.0rc1).
+See [LICENSE](LICENSE), [third-party notices](THIRD-PARTY-NOTICES.md)
+and [security reporting](SECURITY.md).
 
 Built by **DeepIntelli**. For pilot enquiries: [contact@dpintelli.com](mailto:contact@dpintelli.com).
 

@@ -1,6 +1,6 @@
 # Security
 
-Vouch 0.1.0rc1 is a developer preview. The supported local CSV workflow does
+Vouch 0.2.0rc4 is a developer preview. The supported local CSV workflow does
 not make model calls. Experimental runtimes are not a production sandbox
 for arbitrary untrusted code. Review the [release boundary](README.md#what-works-today).
 

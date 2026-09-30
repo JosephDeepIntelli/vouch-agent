@@ -1,71 +1,83 @@
-# Quickstart — the supported native journey (0.1.0rc1)
+# Native quickstart — 0.2.0rc4
 
-Everything here runs from an **installed wheel**, outside any source
-checkout, with no Choose repository, no credentials, no workflow ids and no
-owner identities. Verified on Linux with Python 3.12/3.13; no other platform
-is claimed.
+The supported CSV journey runs locally on Linux x64 without Python, Deno,
+a cloud account, API key or sibling repository when using the compiled
+binaries. All shipped examples are synthetic.
 
-## 1. Install and get sample data
+## Download and verify
 
-```sh
-# stdlib venv (needs the python3-venv/ensurepip distribution package), or:
-#   uv venv --seed --python 3.13 /tmp/vouch-preview
-#   uv pip install --python /tmp/vouch-preview/bin/python vouch_agent-0.1.0rc1-py3-none-any.whl
-python3.12 -m venv /tmp/vouch-preview && /tmp/vouch-preview/bin/pip install vouch_agent-0.1.0rc1-py3-none-any.whl
-export PATH="/tmp/vouch-preview/bin:$PATH"
-cd "$(mktemp -d)"
-vouch version && vouch modes        # modes states honestly: live execution unsupported
-vouch examples --out samples
-```
-
-`vouch examples` writes SYNTHETIC sample CSVs — invented data, deliberately
-including a space + Chinese filename (`产品 目录.csv`) and a supplier feed
-(`supplier feed.csv`) with one changed price, one row missing on each side,
-an ambiguous duplicate key and a right-only column.
-
-## 2. Initialize a task-only workspace
+Download the Linux x64 archive and `SHA256SUMS` from the
+[GitHub release](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.2.0rc4).
 
 ```sh
-vouch init --task-only --project work --purpose "supplier sync"
+sha256sum --ignore-missing -c SHA256SUMS
+tar -xzf vouch-agent-0.2.0rc4-linux-x64.tar.gz
+cd vouch-agent-0.2.0rc4-linux-x64
+./bin/vouch version
+./bin/vouch modes
 ```
 
-Task-only mode records the purpose, needs no workflows or owner identities,
-and refuses the improvement/approval commands (those need a default-mode
-workspace with named owners — identities are never invented).
+Keep both binaries in `bin/`. CSV reconciliation needs no model provider.
+Scripted worker execution needs `vouch-worker` beside `vouch`.
 
-## 3. Reconcile, inspect, export, verify
+## Compare and inspect
 
 ```sh
-vouch reconcile --project work \
-    --left "samples/产品 目录.csv" --right "samples/supplier feed.csv" --join-key sku
-vouch runs --project work
-vouch run-status --project work <run-id>
-vouch export-run --project work <run-id> --out work/export
-vouch verify-export work/export
+./bin/vouch examples --out samples
+./bin/vouch init --task-only --project work --purpose "supplier sync"
+./bin/vouch reconcile --project work \
+  --left "samples/产品 目录.csv" --right "samples/supplier feed.csv" --join-key sku
+./bin/vouch runs --project work
+./bin/vouch run-status --project work RUN_ID
+./bin/vouch export-run --project work RUN_ID --out work/export
+./bin/vouch verify-export work/export
 ```
 
-What you can rely on:
+Replace `RUN_ID` with the returned ID. For your own inputs, replace the file
+paths and join key. Input snapshots and results are persisted locally.
+Changing an exported artifact causes verification to fail. Digests detect
+changed bytes; they do not establish source truth or authorship. Task-only
+workspaces refuse improvement commands rather than inventing approval owners.
 
-- **Deterministic + sensitive**: identical inputs produce identical report
-  digests; any changed input row produces a new run and different export
-  bytes. Inputs are snapshotted immutably by digest.
-- **Honest reporting**: duplicate join keys are reported as ambiguous (never
-  silently deduplicated), schema differences between the CSVs are listed,
-  and missing rows are attributed to the correct side.
-- **Byte-level verification**: `vouch verify-export` re-hashes every
-  artifact against the export manifest; a tampered or truncated export
-  fails. Exports reopen in a fresh process with the same verification.
-- **Recovery**: `vouch resume --project work` shows recovery posture and
-  supports explicit reconciliation of interrupted work.
+## Build from source
 
-Rollback/uninstall: delete the project directory (`work/`) and the virtual
-environment. Nothing else is written outside the project directory.
+Use Deno 2.9.7 on Linux x64 (the verified toolchain):
 
-## Experimental surfaces (developer-only, not this journey)
+```sh
+cd typescript
+deno task fmt
+deno task lint
+deno task check
+deno task test
+deno task compile-all
+bash scripts/verify-native.sh dist
+```
 
-The improvement vertical, JAZ/fixed-fact tasks (`vouch run`), TUI (`vouch tui`),
-evidence importers and pilot simulations are experimental. Choose-specific
-experiments need a prepared runner configured through `VOUCH_CHOOSE_RUNNER_DIR`;
-the TUI and local demonstrations do not all need that checkout. See
-[architecture](architecture.md) and [adapter protocol](adapter-protocol-v1.1.md).
-None makes a live-model claim; live execution is not implemented here.
+The default test suite has one explicitly ignored integration test because
+it requires an independently installed Choose runner. `VOUCH_TS_TEST_CHOOSE_ROOT`
+configures that optional runner; it is not needed for the native CSV workflow.
+The source imports only built-ins; no remote modules are required.
+
+## Runtime boundaries
+
+The controller has host-wide filesystem read/write and subprocess authority.
+It has no network or environment permissions in the compiled distribution.
+The worker starts without grants, revokes all permission classes at startup,
+and probes effective denial. Its inherited environment is cleared.
+This is not a verified OS/VM sandbox for arbitrary untrusted code.
+
+When available, `prlimit` applies a CPU-seconds cap. Worker memory has no
+enforced OS cap. Message-size limits and deadlines do not bound its heap.
+All model-task execution uses deterministic scripted fixtures. Live model
+execution, applied-runner-config receipt validation, measured model
+improvement and TUI are unsupported in this release.
+
+## Existing Python workspaces
+
+The immutable [Python release](https://github.com/JosephDeepIntelli/vouch-agent/releases/tag/v0.1.0rc1)
+remains available. Native workspaces use their own format; do not replace
+binaries and assume an existing Python workspace is writable.
+`vouch import-python --from OLD_DIRECTORY --to NEW_DIRECTORY` performs an
+explicit migration with a read-only source. Native export verification can
+also inspect Python exports. Preserve the original data while reviewing a
+migration.

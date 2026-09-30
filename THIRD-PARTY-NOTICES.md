@@ -1,17 +1,14 @@
-# Third-party dependencies
+# Third-party notices
 
-Vouch's own code is Apache-2.0. Dependencies retain their own licenses.
+Vouch's own source is licensed under Apache-2.0; see [LICENSE](LICENSE).
+The native binaries embed Deno and its runtime dependencies. License texts
+are included in the source repository and binary distribution:
 
-| Direct dependency | Use | Declared license |
-| --- | --- | --- |
-| jaz-lang 0.2.0a4 | Pinned execution runtime | Apache-2.0 |
-| Typer | Command-line interface | MIT |
-| Textual | Experimental terminal interface | MIT |
+- Deno (MIT): [license](typescript/licenses/deno-LICENSE)
+- V8 (BSD-3-Clause): [license](typescript/licenses/v8-LICENSE)
+- SQLite (public domain): [dedication](typescript/licenses/sqlite-PUBLIC-DOMAIN)
+- Build versions: [toolchain](typescript/licenses/toolchain.txt)
 
-The repository does not vendor their source. Their distributions include
-their license materials. `uv.lock` records the resolved dependency graph,
-including transitive packages; this table is not a complete transitive
-license inventory. When redistributing an environment or vendoring code,
-retain applicable notices and review the actual distributions' licenses.
-
-JAZ source: https://github.com/jaz-lang/jaz
+The TypeScript source uses only Deno and Node built-ins; no remote module
+or third-party package dependency is imported. The earlier Python release
+and its attribution remain available at the immutable `v0.1.0rc1` tag.

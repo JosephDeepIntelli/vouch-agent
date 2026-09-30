@@ -1,0 +1,43 @@
+{
+  "nodeCompilerOptions": null,
+  "licenseHeader": null,
+  "lint": {
+    "rules": {
+      "tags": [
+        "recommended"
+      ],
+      "exclude": [
+        "require-await"
+      ]
+    }
+  },
+  "fmt": {
+    "lineWidth": 100,
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false
+  },
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "verbatimModuleSyntax": true
+  },
+  "tasks": {
+    "cli": "deno run --no-prompt --allow-read --allow-write --allow-run src/cli/main.ts",
+    "worker": "deno run --no-prompt src/runtime/worker_main.ts",
+    "fmt": "deno fmt --check",
+    "fmt-fix": "deno fmt",
+    "lint": "deno lint",
+    "check": "deno check src/**/*.ts tests/**/*.ts",
+    "test": "deno test --no-prompt --allow-read --allow-write --allow-run --allow-env=VOUCH_TS_TEST_CHOOSE_ROOT,VOUCH_TEST_ENV_SENTINEL,VOUCH_PILOT_CREDENTIAL_TEST,PATH,HOME tests/",
+    "compile": "deno compile --no-prompt --target x86_64-unknown-linux-gnu --output dist/vouch --allow-read --allow-write --allow-run src/cli/main.ts",
+    "compile-worker": "deno compile --no-prompt --target x86_64-unknown-linux-gnu --output dist/vouch-worker src/runtime/worker_main.ts",
+    "compile-all": "deno task compile && deno task compile-worker"
+  },
+  "lock": true
+}

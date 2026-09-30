@@ -74,3 +74,9 @@ Thumbs.db
 *.swp
 *.swo
 *~
+
+# Native TypeScript/Deno builds and local release material
+/typescript/dist/
+/node_modules/
+**/node_modules/
+/release-build/

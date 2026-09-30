@@ -1,0 +1,15 @@
+# SQLite Public Domain Status
+
+The official SQLite source code (https://www.sqlite.org/) is dedicated to the
+public domain. From the SQLite website's legal notice:
+
+  All of the code and documentation in SQLite has been dedicated to the
+  public domain by its authors. ... The authors disclaim copyright.
+
+The Deno runtime embeds SQLite (via rusty_sqlite / the node:sqlite built-in);
+the copy embedded in the `vouch` and `vouch-worker` binaries ships under that
+same public-domain dedication. No additional restriction applies.
+
+Retrieved 2026-09-30 from https://www.sqlite.org/copyright.html — verify
+there before redistribution if this notice ever disagrees with the upstream
+page.

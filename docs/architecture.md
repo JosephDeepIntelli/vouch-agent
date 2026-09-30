@@ -1,63 +1,66 @@
 # Architecture and trust boundaries
 
-Vouch separates task execution from the decisions that determine whether its
-results can be accepted. The supported CSV workflow is deterministic; the
-general agent and improvement paths remain experiments.
+The product runtime is TypeScript on Deno. The native Linux x64 preview
+includes a CLI controller and a separate worker executable.
 
-The product runtime target is TypeScript on Deno. The published 0.1.0rc1
-implementation is Python-based and remains the reference until the native
-replacement is verified. Current setup instructions describe that published
-implementation, rather than requiring an unimplemented TypeScript build.
-
-## Supported task path
+## Supported local task path
 
 ```text
-CSV inputs -> immutable material snapshots -> reconciliation
-           -> saved run and report -> export manifest -> digest verification
+CSV inputs -> immutable snapshots -> reconciliation
+           -> durable run and report -> export -> digest verification
 ```
 
-Task-only workspaces record their purpose without inventing approval owners.
-Improvement and approval commands refuse that workspace mode. Task state,
-events and artifact references are persisted locally using SQLite and
-content-addressed storage. Verification detects bytes that disagree with the
-export manifest; it does not establish source authenticity or truth.
+SQLite stores local state and events; content-addressed storage retains
+artifact bytes. Task-only workspaces record their purpose without inventing
+approval owners. Export verification detects changed bytes, unsafe paths,
+linked entries and incomplete packages. It does not authenticate authorship
+or prove the underlying input is true.
 
-## Experimental improvement path
+## Execution and recovery
 
-Contracts represent tasks, candidates, runs, budgets and evidence. The
-controller owns policy and decisions; workers execute bounded work. JAZ is
-used through a pinned Python dependency. Versioned adapters connect
-independently prepared products through subprocess protocols. Runner
-locations require explicit configuration.
+The controller owns policies, query-budget reservations and durable state.
+The separate worker executes scripted fixture steps through a framed
+protocol. Subprocess environments are explicitly cleared. The worker
+revokes ambient permission grants and functionally checks effective denial
+at startup; the controller rejects reported weakened boundaries.
 
-Independent acceptance, complete cost accounting and recovery from unknown
-outcomes are design requirements exercised by failure-path tests. They are
-not a claim that arbitrary generated code is safely sandboxed. Resource
-limits and Python hooks alone do not provide that guarantee.
+Pause/resume/cancel and recovery tests cover interrupted work and ownership
+fencing. An unknown outcome requires reconciliation rather than silently
+replaying a potentially completed action. Budget authority stays in the
+controller and covers nested queries.
 
-## Evaluators
+The controller retains host-wide filesystem and process authority. Worker
+CPU limits apply only when `prlimit` is available; memory has no enforced
+OS cap. This preview is not a verified OS/VM sandbox for arbitrary untrusted
+code.
 
-The planned evaluator boundary separates execution, deterministic validation,
-advisory model grading and final acceptance policy. Specialist graders may
-receive authorized reference evidence; they do not acquire action authority.
-Final acceptance examples stay separate from training and feedback data.
-No live evaluator integration or model-quality improvement is supported in
-0.1.0rc1. See the [preview scope](../README.md#what-works-today).
+## Improvement fixtures and adapters
+
+Candidates, evaluation runs, evidence, acceptance and approvals bind to
+content digests. Versioned subprocess adapters connect independently
+prepared runners without importing sibling source. The Choose runner
+integration is verified when explicitly configured.
+
+Improvement is a fixture protocol/lifecycle demonstration. Validation of
+applied runner configuration and real model-quality gains is not supported.
+All shipped inputs and example outcomes are synthetic. Live model execution
+and TUI are outside this release's supported scope.
 
 ## Source map
 
-- `contracts/`: typed identities, tasks, candidates and evidence records.
-- `appservices/` and `controller/`: workflow orchestration and control.
-- `storage/` and `ledger/`: durable state, budgets and accounting.
-- `runtime/` and `orchestrator/`: bounded execution and lifecycle.
-- `adapters/`: external protocol boundaries.
-- `cli/` and `tui/`: CLI and experimental terminal UI.
+Under `typescript/src/`: `contracts/` defines identities and records;
+`appservices/` and `orchestrator/` coordinate work; `storage/` owns durable
+state, artifacts and budgets; `runtime/` contains controller/worker ports;
+`adapters/` contains the public protocol transport; `improvement/` contains
+the fixture evaluation lifecycle; `cli/` exposes commands.
 
-Public protocol reference: [adapter protocol](adapter-protocol-v1.1.md).
+See the [adapter protocol](adapter-protocol-v1.1.md) and
+[quickstart](quickstart.md). The previous Python implementation remains
+available at its immutable public tag as a compatibility reference.
 
 ## Naming
 
-The product’s Chinese name is 迪普智信 (short form 智信); its Chinese product
-promise, 有据可依，值得托付, reads as *grounded in evidence, worthy of your
-trust*. The English name remains Vouch / DeepIntelli Vouch, and package,
-CLI and adapter-protocol identifiers are unchanged by this naming.
+The product's Chinese name is 迪普智信 (short form 智信), with the promise
+有据可依，值得托付 — grounded in evidence, worthy of your trust.
+The English name remains Vouch / DeepIntelli Vouch; CLI and protocol
+identifiers are unchanged.
