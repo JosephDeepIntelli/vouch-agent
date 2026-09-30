@@ -6,6 +6,11 @@ Vouch is DeepIntelli’s local-first project for business task execution and
 controlled agent improvement. We are building toward a simple promise:
 useful work should come with evidence, clear boundaries and a way to recover.
 
+**Chinese name.** The product’s Chinese name is 迪普智信 (short form 智信) —
+sound judgment joined with keeping one’s word. Its Chinese product promise,
+有据可依，值得托付, reads as *grounded in evidence, worthy of your trust*.
+The English name remains Vouch / DeepIntelli Vouch.
+
 The **0.1.0rc1 developer preview** starts with a concrete workflow: compare
 two CSV files, inspect what changed, and export a result you can verify
 byte-for-byte. It runs locally without an account, API key or model call.

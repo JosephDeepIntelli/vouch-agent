@@ -54,3 +54,10 @@ No live evaluator integration or model-quality improvement is supported in
 - `cli/` and `tui/`: CLI and experimental terminal UI.
 
 Public protocol reference: [adapter protocol](adapter-protocol-v1.1.md).
+
+## Naming
+
+The product’s Chinese name is 迪普智信 (short form 智信); its Chinese product
+promise, 有据可依，值得托付, reads as *grounded in evidence, worthy of your
+trust*. The English name remains Vouch / DeepIntelli Vouch, and package,
+CLI and adapter-protocol identifiers are unchanged by this naming.
